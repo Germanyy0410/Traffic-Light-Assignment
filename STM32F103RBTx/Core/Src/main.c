@@ -82,7 +82,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-  HAL_TIM_Base_Start_IT(&htim2);
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -204,8 +204,8 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, D6_PEDESTRIAN_Pin|LED_2_Pin|LED_4_Pin|LED_3_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : PA0 PA1 PA4 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_4;
+  /*Configure GPIO pins : BUTTON_PEDESTRIAN_Pin BUTTON_1_Pin BUTTON_2_Pin */
+  GPIO_InitStruct.Pin = BUTTON_PEDESTRIAN_Pin|BUTTON_1_Pin|BUTTON_2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -217,11 +217,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(BUZZER_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PB0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  /*Configure GPIO pin : BUTTON_3_Pin */
+  GPIO_InitStruct.Pin = BUTTON_3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_Init(BUTTON_3_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : D6_PEDESTRIAN_Pin LED_2_Pin LED_4_Pin LED_3_Pin */
   GPIO_InitStruct.Pin = D6_PEDESTRIAN_Pin|LED_2_Pin|LED_4_Pin|LED_3_Pin;
@@ -240,9 +240,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
-}
 /* USER CODE END 4 */
 
 /**
