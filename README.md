@@ -8,5 +8,5 @@ In this project, the STM32F103RB is used to simulate the 2-way traffic light sys
 - **[Pedestrian scramble](https://en.wikipedia.org/wiki/Pedestrian_scramble)**: when the button for pedestrian is pressed, its light is turned on and operates reversely to the light of vehicles
 
 ## Block Diagram
-![Alt text](/Simulation/image.png)
+![Alt text](image.png)
 
