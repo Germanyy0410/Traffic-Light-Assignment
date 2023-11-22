@@ -12,7 +12,7 @@
 #include "button.h"
 #include "fsm_automatic.h"
 #include "fsm_manual.h"
-#include "fsm_tuning.h"
+#include "fsm_pedestrian.h"
 #include "led_display.h"
 #include "software_timer.h"
 
@@ -33,8 +33,7 @@
 #define MAN_GREEN        300
 
 extern int status;				// status for traffic mode
-extern int status_light_1; 		// status for light 1
-extern int status_light_2; 		// status for light 2
+extern int pedestrian_status;   // status for pedestrian
 extern int red_counter;
 extern int abmer_counter;
 extern int green_counter;

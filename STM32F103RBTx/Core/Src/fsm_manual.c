@@ -10,69 +10,94 @@
 void fsm_manual_run(void) {
     switch (status) {
     case MAN_RED:
-        // turn off all lights
+        /* TURN OFF LIGHTS */
         light_Off();
+        setTimer(1, 500);
 
-        // led blink
+        /* BLINK LEDs */
         if (timer_flag[1] == 1) {
-            //TODO: Toggle 2-way LED_REDs
+            HAL_GPIO_TogglePin(LED_RED_1_GPIO_Port, LED_RED_1_Pin);
+            HAL_GPIO_TogglePin(LED_RED_2_GPIO_Port, LED_RED_2_Pin);
             setTimer(1, 500);
         }
         
-        // manual amber
-        if (isButtonPressed(2)) {
-            handleButtonProcess(2);
+        /* CHANGE MODE = 3 (MAN_AMBER) WHEN BUTTON1 IS PRESSED */
+        if (isButtonPressed(1)) {
+            handleButtonProcess(1);
             status = MAN_AMBER;
         }
+    
+        /* MODIFY TIME LENGTH */
+        if (isButtonPressed(2)) {
+            handleButtonProcess(2);
+        }
 
-        // modify time length
+        /* CONFIRM TIME LENGTH */
         if (isButtonPressed(3)) {
             handleButtonProcess(3);
+            status = INIT;
         }
 
         break;
 
     case MAN_AMBER:
-        // turn off all lights
+        /* TURN OFF LIGHTS */
         light_Off();
+        setTimer(1, 500);
 
-        // led blink
+        /* BLINK LEDs */
         if (timer_flag[1] == 1) {
-            //TODO: Toggle 2-way LED_AMBERs
+            HAL_GPIO_TogglePin(LED_AMBER_1_GPIO_Port, LED_AMBER_1_Pin);
+            HAL_GPIO_TogglePin(LED_AMBER_2_GPIO_Port, LED_AMBER_2_Pin);
             setTimer(1, 500);
         } 
 
-        // manual amber
-        if (isButtonPressed(2)) {
-            handleButtonProcess(2);
+        /* CHANGE MODE = 4 (MAN_GREEN) WHEN BUTTON1 IS PRESSED */
+        if (isButtonPressed(1)) {
+            handleButtonProcess(1);
             status = MAN_GREEN;
         }
 
-        // modify time length
+        /* MODIFY TIME LENGTH */
+        if (isButtonPressed(2)) {
+            handleButtonProcess(2);
+        }
+
+        /* CONFIRM TIME LENGTH */
         if (isButtonPressed(3)) {
             handleButtonProcess(3);
+            status = INIT;
         }
         
         break;
 
     case MAN_GREEN:
-        // turn off all lights
+        /* TURN OFF LIGHTS */
         light_Off();
-        
+        setTimer(1, 500);
+
+        /* BLINK LEDs */
         if (timer_flag[1] == 1) {
-            //TODO: Toggle 2-way LED_GREENs
+            HAL_GPIO_TogglePin(LED_GREEN_1_GPIO_Port, LED_GREEN_1_Pin);
+            HAL_GPIO_TogglePin(LED_GREEN_2_GPIO_Port, LED_GREEN_2_Pin); 
             setTimer(1, 500);
         }
 
-        // manual amber
-        if (isButtonPressed(2)) {
-            handleButtonProcess(2);
-            status = MAN_GREEN;
+        /* CHANGE MODE = 1 (AUTOMATIC) WHEN BUTTON1 IS PRESSED */
+        if (isButtonPressed(1)) {
+            handleButtonProcess(1);
+            status = INIT;
         }
 
-        // modify time length
+        /* MODIFY TIME LENGTH */
+        if (isButtonPressed(2)) {
+            handleButtonProcess(2);
+        }
+
+        /* CONFIRM TIME LENGTH */
         if (isButtonPressed(3)) {
             handleButtonProcess(3);
+            status = INIT;
         }
     }
 }

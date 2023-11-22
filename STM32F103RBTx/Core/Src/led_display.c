@@ -6,3 +6,7 @@
  */
 
 #include "led_display.h"
+
+void send7SEG(void) {
+    
+}

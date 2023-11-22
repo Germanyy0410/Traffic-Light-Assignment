@@ -10,4 +10,6 @@
 
 #include "global.h"
 
+void send7SEG(void);
+
 #endif /* INC_LED_DISPLAY_H_ */
