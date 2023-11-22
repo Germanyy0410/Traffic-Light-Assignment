@@ -13,7 +13,9 @@ int KeyReg2[NO_BUTTONS + 1];
 int KeyReg3[NO_BUTTONS + 1];
 
 int button_flag[NO_BUTTONS + 1];
-int TimerForKeyPress[NO_BUTTONS + 1]; // 2 seconds
+int TimerForKeyPress[NO_BUTTONS + 1];
+
+int Button1PressCounter = 1;    /* INITIALLY, MODE = 1 */
 
 void initButton() {
 	for (int i = 1; i <= NO_BUTTONS; i++) {
@@ -22,18 +24,19 @@ void initButton() {
 		KeyReg2[i] = NORMAL_STATE;
 		KeyReg3[i] = NORMAL_STATE; 
 		button_flag[i] = 0;
-		TimerForKeyPress[i] = 200; // 2 seconds
+		TimerForKeyPress[i] = 200;
 	}
 }
 
 void getKeyInput() {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 1; i < NO_BUTTONS; i++) {
         KeyReg0[i] = KeyReg1[i];
         KeyReg1[i] = KeyReg2[i];
 
-        if (i == 0) KeyReg2[i] = HAL_GPIO_ReadPin(BUTTON_1_GPIO_Port, BUTTON_1_Pin);
-        if (i == 1) KeyReg2[i] = HAL_GPIO_ReadPin(BUTTON_2_GPIO_Port, BUTTON_2_Pin);
-        if (i == 2) KeyReg2[i] = HAL_GPIO_ReadPin(BUTTON_3_GPIO_Port, BUTTON_3_Pin);
+        if (i == 1) KeyReg2[i] = HAL_GPIO_ReadPin(BUTTON_1_GPIO_Port, BUTTON_1_Pin);
+        if (i == 2) KeyReg2[i] = HAL_GPIO_ReadPin(BUTTON_2_GPIO_Port, BUTTON_2_Pin);
+        if (i == 3) KeyReg2[i] = HAL_GPIO_ReadPin(BUTTON_3_GPIO_Port, BUTTON_3_Pin);
+        if (i == 4) KeyReg2[i] = HAL_GPIO_ReadPin(BUTTON_PEDESTRIAN_GPIO_Port, BUTTON_PEDESTRIAN_Pin);
 
         if ((KeyReg0[i] == KeyReg1[i]) && (KeyReg1[i] == KeyReg2[i])) {
             if (KeyReg3[i] != KeyReg2[i]) {
