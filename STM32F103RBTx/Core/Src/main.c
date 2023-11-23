@@ -97,7 +97,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  if (isButtonPressed(1)) {
+		  HAL
+	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -240,7 +242,9 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+  timerRun();
+}
 /* USER CODE END 4 */
 
 /**

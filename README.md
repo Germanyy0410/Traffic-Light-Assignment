@@ -10,3 +10,11 @@ In this project, the STM32F103RB is used to simulate the 2-way traffic light sys
 ## Block Diagram
 ![Alt text](image.png)
 
+## Truth Table - Traffic Light
+
+| Traffic Light 1 | Traffic Light 2 | Light |
+| :------------------: | :------------: | :------------: |
+| 1 | 1 | RED |
+| 1 | 0 | AMBER |
+| 0 | 1 | GREEN |
+
