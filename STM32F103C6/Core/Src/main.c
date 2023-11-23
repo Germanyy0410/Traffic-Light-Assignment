@@ -108,6 +108,7 @@ int main(void)
     fsm_pedestrian_run();
     /* USER CODE BEGIN 3 */
     //Hello Duc
+    //12312
     // Hello Huy
   }
   /* USER CODE END 3 */
