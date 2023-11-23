@@ -107,7 +107,7 @@ int main(void)
     fsm_manual_run();
     fsm_pedestrian_run();
     /* USER CODE BEGIN 3 */
-//    Hello
+//    Hello huy
   }
   /* USER CODE END 3 */
 }
