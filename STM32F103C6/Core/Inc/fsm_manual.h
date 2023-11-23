@@ -10,6 +10,8 @@
 
 #include "global.h"
 
+extern int time_modify_counter;     /* STORE THE TEMPORARY VALUE TO ADJUST TIME LENGTH */
+
 void fsm_manual_run(void);
 
 #endif /* INC_FSM_MANUAL_H_ */

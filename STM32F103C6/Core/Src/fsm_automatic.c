@@ -64,16 +64,61 @@ void light_Off(void) {
 
 /* DO SOMEHING WHEN BUTTON IS PRESSED */
 void handleButtonProcess(int index) {
-    if (index == 1) {
-        //TODO: Button 1
+    if (index == 1) {                   /* BUTTON 1 -> CHANGE MODE */
+        if (status == INIT || status == RED_GREEN || status == RED_AMBER || status == GREEN_RED || status == AMBER_RED) {
+            status = MAN_RED;
+        } else if (status == MAN_RED) {
+            status = MAN_AMBER;
+        } else if (status == MAN_AMBER) {
+            status = MAN_GREEN;
+        } else if (status == MAN_GREEN) {
+            status = INIT;
+        }
     }
-    else if (index == 2) {
-        //TODO: Button 2 -> Update time length
+    else if (index == 2) {              /* BUTTON 2 -> UPDATE TIME LENGTH */
+        if (status == MAN_RED) {                /* MODE 2 */
+            time_modify_counter = red_counter;
+            
+            if (time_modify_counter == 99000) {
+                time_modify_counter = 0;
+            } else {
+                time_modify_counter += 1000;
+            }
+        } 
+        else if (status == MAN_AMBER) {       /* MODE 3 */
+            time_modify_counter = amber_counter;
+            
+            if (time_modify_counter == 99000) {
+                time_modify_counter = 0;
+            } else {
+                time_modify_counter += 1000;
+            }
+        } 
+        else {                                /* MODE 4 */
+            time_modify_counter = green_counter;
+            
+            if (time_modify_counter == 99000) {
+                time_modify_counter = 0;
+            } else {
+                time_modify_counter += 1000;
+            }
+        }
     }
-    else if (index == 3) { 
-        //TODO: Button 3 -> Store new time length
-    } else {
-        //TODO: Pedestrian Button
+    else if (index == 3) {              /* BUTTON 3 -> STORE NEW TIME LENGTH */
+        if (status == MAN_RED) {                    /* MODE 2 */
+            red_counter = time_modify_counter;
+        } 
+        else if (status == MAN_AMBER) {             /* MODE 3 */
+            amber_counter = time_modify_counter;
+        } 
+        else {                                      /* MODE 4 */
+            green_counter = time_modify_counter;
+        }
+
+        status = INIT;
+    } 
+    else {                              /* BUTTON 4 -> PEDESTRIAN */
+        
     }
 }
 
@@ -81,7 +126,6 @@ void fsm_automatic_run(void) {
     /* CHANGE MODE = 2 (MAN_RED) WHEN BUTTON1 IS PRESSED */
     if (isButtonPressed(1)) {
         handleButtonProcess(1);
-        status = MAN_RED;
     }
 
     switch (status) {
