@@ -24,7 +24,6 @@ void fsm_manual_run(void) {
         /* CHANGE MODE = 3 (MAN_AMBER) WHEN BUTTON1 IS PRESSED */
         if (isButtonPressed(1)) {
             handleButtonProcess(1);
-            status = MAN_AMBER;
         }
     
         /* MODIFY TIME LENGTH */
@@ -35,7 +34,6 @@ void fsm_manual_run(void) {
         /* CONFIRM TIME LENGTH */
         if (isButtonPressed(3)) {
             handleButtonProcess(3);
-            status = INIT;
         }
 
         break;
@@ -55,7 +53,6 @@ void fsm_manual_run(void) {
         /* CHANGE MODE = 4 (MAN_GREEN) WHEN BUTTON1 IS PRESSED */
         if (isButtonPressed(1)) {
             handleButtonProcess(1);
-            status = MAN_GREEN;
         }
 
         /* MODIFY TIME LENGTH */
@@ -66,7 +63,6 @@ void fsm_manual_run(void) {
         /* CONFIRM TIME LENGTH */
         if (isButtonPressed(3)) {
             handleButtonProcess(3);
-            status = INIT;
         }
         
         break;
@@ -86,7 +82,6 @@ void fsm_manual_run(void) {
         /* CHANGE MODE = 1 (AUTOMATIC) WHEN BUTTON1 IS PRESSED */
         if (isButtonPressed(1)) {
             handleButtonProcess(1);
-            status = INIT;
         }
 
         /* MODIFY TIME LENGTH */
@@ -97,7 +92,6 @@ void fsm_manual_run(void) {
         /* CONFIRM TIME LENGTH */
         if (isButtonPressed(3)) {
             handleButtonProcess(3);
-            status = INIT;
         }
     }
 }

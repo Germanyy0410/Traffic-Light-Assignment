@@ -29,7 +29,7 @@
 
 // * Tuning mode * //
 #define MAN_RED          100
-#define MAN_AMBER      200
+#define MAN_AMBER        200
 #define MAN_GREEN        300
 
 extern int status;				// status for traffic mode
