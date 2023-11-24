@@ -78,30 +78,15 @@ void handleButtonProcess(int index) {
     else if (index == 2) {              /* BUTTON 2 -> UPDATE TIME LENGTH */
         if (status == MAN_RED) {                /* MODE 2 */
             time_modify_counter = red_counter;
-            
-            if (time_modify_counter == 99000) {
-                time_modify_counter = 0;
-            } else {
-                time_modify_counter += 1000;
-            }
+            time_modify_counter = (time_modify_counter == 99000) ? 0 : (time_modify_counter + 1000);
         } 
         else if (status == MAN_AMBER) {       /* MODE 3 */
             time_modify_counter = amber_counter;
-            
-            if (time_modify_counter == 99000) {
-                time_modify_counter = 0;
-            } else {
-                time_modify_counter += 1000;
-            }
+            time_modify_counter = (time_modify_counter == 99000) ? 0 : (time_modify_counter + 1000);
         } 
         else {                                /* MODE 4 */
             time_modify_counter = green_counter;
-            
-            if (time_modify_counter == 99000) {
-                time_modify_counter = 0;
-            } else {
-                time_modify_counter += 1000;
-            }
+            time_modify_counter = (time_modify_counter == 99000) ? 0 : (time_modify_counter + 1000);
         }
     }
     else if (index == 3) {              /* BUTTON 3 -> STORE NEW TIME LENGTH */
