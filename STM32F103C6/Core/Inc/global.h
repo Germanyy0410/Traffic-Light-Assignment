@@ -12,34 +12,33 @@
 #include "button.h"
 #include "software_timer.h"
 
-#define INIT            				3
-#define AUTOMATIC_MODE 	4
-#define MANUAL_MODE      	5
-#define TUNING_MODE       	6
+#define INIT 3
+#define AUTOMATIC_MODE 4
+#define MANUAL_MODE 5
+#define TUNING_MODE 6
 
-#define MAX_TIME 			99000 	// 99 seconds
-#define UPDATED_TIME 	1000 	// 1 second
+#define MAX_TIME 99000    // 99 seconds
+#define UPDATED_TIME 1000 // 1 second
 
 // * Automatic mode * //
-#define RED_GREEN           50
-#define RED_AMBER          60
-#define GREEN_RED           70
-#define AMBER_RED          80
+#define RED_GREEN 50
+#define RED_AMBER 60
+#define GREEN_RED 70
+#define AMBER_RED 80
 
 // * Tuning mode * //
-#define MAN_RED          100
-#define MAN_AMBER        200
-#define MAN_GREEN        300
+#define MAN_RED 100
+#define MAN_AMBER 200
+#define MAN_GREEN 300
 
-extern int status;					// general status
-extern int traffic_status;			// status for traffic mode
-extern int pedestrian_status;  // status for pedestrian
+extern int status;            // general status
+extern int traffic_status;    // status for traffic mode
+extern int pedestrian_status; // status for pedestrian
 extern int red_counter;
-extern int abmer_counter;
+extern int amber_counter;
 extern int green_counter;
-extern int time_modify_counter;     /* STORE THE TEMPORARY VALUE TO ADJUST TIME LENGTH */
+extern int time_modify_counter; /* STORE THE TEMPORARY VALUE TO ADJUST TIME LENGTH */
 
 void reset_to_normal_mode(void);
-
 
 #endif /* INC_GLOBAL_H_ */
