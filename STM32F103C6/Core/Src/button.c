@@ -61,7 +61,7 @@ void getKeyInput() {
 }
 
 int isButtonPressed(int index) {
-	if (buttonNo > NO_BUTTONS)
+	if (index > NO_BUTTONS)
 		return 0;
 
 	if (button_flag[index]) {
