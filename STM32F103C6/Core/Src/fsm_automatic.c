@@ -138,6 +138,9 @@ void fsm_automatic_run(void) {
 
     switch (status) {
     case INIT:
+//    	INVACTIVE pedestrian light when in INIT state
+    	pedestrian_status = PEDESTRIAN_INACTIVE;
+
         Red_Green();
         status = RED_GREEN;
 
