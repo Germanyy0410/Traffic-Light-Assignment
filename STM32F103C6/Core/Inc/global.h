@@ -37,6 +37,7 @@ extern int pedestrian_status;  // status for pedestrian
 extern int red_counter;
 extern int abmer_counter;
 extern int green_counter;
+extern int time_modify_counter;     /* STORE THE TEMPORARY VALUE TO ADJUST TIME LENGTH */
 
 void reset_to_normal_mode(void);
 
