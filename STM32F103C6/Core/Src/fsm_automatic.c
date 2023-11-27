@@ -65,38 +65,38 @@ void light_Off(void) {
 /* DO SOMEHING WHEN BUTTON IS PRESSED */
 void handleButtonProcess(int index) {
     if (index == 1) {                   /* BUTTON 1 -> CHANGE MODE */
-        if (status == INIT || status == RED_GREEN || status == RED_AMBER || status == GREEN_RED || status == AMBER_RED) {
-            status = MAN_RED;
-        } else if (status == MAN_RED) {
-            status = MAN_AMBER;
-        } else if (status == MAN_AMBER) {
-            status = MAN_GREEN;
-        } else if (status == MAN_GREEN) {
-            status = INIT;
+        if (traffic_status == INIT || traffic_status == RED_GREEN || traffic_status == RED_AMBER || traffic_status == GREEN_RED || traffic_status == AMBER_RED) {
+            traffic_status = MAN_RED;
+        } else if (traffic_status == MAN_RED) {
+            traffic_status = MAN_AMBER;
+        } else if (traffic_status == MAN_AMBER) {
+            traffic_status = MAN_GREEN;
+        } else if (traffic_status == MAN_GREEN) {
+            traffic_status = INIT;
         }
     }
     else if (index == 2) {              /* BUTTON 2 -> UPDATE TIME LENGTH */
-        if (status == MAN_RED) {                /* MODE 2 */
+        if (traffic_status == MAN_RED) {                /* MODE 2 */
             time_modify_counter = red_counter;
-            
+
             if (time_modify_counter == 99000) {
                 time_modify_counter = 0;
             } else {
                 time_modify_counter += 1000;
             }
-        } 
-        else if (status == MAN_AMBER) {       /* MODE 3 */
+        }
+        else if (traffic_status == MAN_AMBER) {       /* MODE 3 */
             time_modify_counter = amber_counter;
-            
+
             if (time_modify_counter == 99000) {
                 time_modify_counter = 0;
             } else {
                 time_modify_counter += 1000;
             }
-        } 
+        }
         else {                                /* MODE 4 */
             time_modify_counter = green_counter;
-            
+
             if (time_modify_counter == 99000) {
                 time_modify_counter = 0;
             } else {
@@ -105,20 +105,20 @@ void handleButtonProcess(int index) {
         }
     }
     else if (index == 3) {              /* BUTTON 3 -> STORE NEW TIME LENGTH */
-        if (status == MAN_RED) {                    /* MODE 2 */
+        if (traffic_status == MAN_RED) {                    /* MODE 2 */
             red_counter = time_modify_counter;
-        } 
-        else if (status == MAN_AMBER) {             /* MODE 3 */
+        }
+        else if (traffic_status == MAN_AMBER) {             /* MODE 3 */
             amber_counter = time_modify_counter;
-        } 
+        }
         else {                                      /* MODE 4 */
             green_counter = time_modify_counter;
         }
 
-        status = INIT;
-    } 
+        traffic_status = INIT;
+    }
     else {                              /* BUTTON 4 -> PEDESTRIAN */
-        
+
     }
 }
 
@@ -128,10 +128,10 @@ void fsm_automatic_run(void) {
         handleButtonProcess(1);
     }
 
-    switch (status) {
+    switch (traffic_status) {
     case INIT:
         Red_Green();
-        status = RED_GREEN;
+        traffic_status = RED_GREEN;
 
         break;
 
@@ -139,7 +139,7 @@ void fsm_automatic_run(void) {
         Red_Green();
 
         if (timer_flag[0] == 1) {
-            status = RED_AMBER;
+            traffic_status = RED_AMBER;
             setTimer(0, amber_counter);
         }    
 
@@ -149,7 +149,7 @@ void fsm_automatic_run(void) {
         Red_Amber();
 
         if (timer_flag[0] == 1) {
-            status = GREEN_RED;
+            traffic_status = GREEN_RED;
             setTimer(0, green_counter);
         }
 
@@ -159,7 +159,7 @@ void fsm_automatic_run(void) {
         Green_Red();
 
         if (timer_flag[0] == 1) {
-            status = AMBER_RED;
+            traffic_status = AMBER_RED;
             setTimer(0, amber_counter);
         }
 
@@ -169,7 +169,7 @@ void fsm_automatic_run(void) {
     	Amber_Red();
 
         if (timer_flag[0] == 1) {
-            status = RED_GREEN;
+            traffic_status = RED_GREEN;
             setTimer(0, green_counter);
         }
         break;

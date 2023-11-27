@@ -10,16 +10,15 @@
 
 #include "main.h"
 #include "button.h"
-#include "fsm_automatic.h"
-#include "fsm_manual.h"
-#include "fsm_pedestrian.h"
-#include "led_display.h"
 #include "software_timer.h"
 
-#define INIT            3
-#define AUTOMATIC       4
-#define MANUAL          5
-#define TUNING          6
+#define INIT            				3
+#define AUTOMATIC_MODE 	4
+#define MANUAL_MODE      	5
+#define TUNING_MODE       	6
+
+#define MAX_TIME 			99000 	// 99 seconds
+#define UPDATED_TIME 	1000 	// 1 second
 
 // * Automatic mode * //
 #define RED_GREEN           50
@@ -32,8 +31,9 @@
 #define MAN_AMBER        200
 #define MAN_GREEN        300
 
-extern int status;				// status for traffic mode
-extern int pedestrian_status;   // status for pedestrian
+extern int status;					// general status
+extern int traffic_status;			// status for traffic mode
+extern int pedestrian_status;  // status for pedestrian
 extern int red_counter;
 extern int abmer_counter;
 extern int green_counter;
