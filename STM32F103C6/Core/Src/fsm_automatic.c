@@ -166,7 +166,7 @@ void fsm_automatic_run(void) {
         break;
 
     case AMBER_RED:
-        Yellow_Red();
+    	Amber_Red();
 
         if (timer_flag[0] == 1) {
             status = RED_GREEN;
