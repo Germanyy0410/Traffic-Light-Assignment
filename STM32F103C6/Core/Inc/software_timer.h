@@ -12,7 +12,14 @@
 
 #define NUM_OF_TIMERS 3
 
+/* 
+* TIMER[0]: AUTOMATIC
+* TIMER[1]: MANUAL
+* TIMER[2]: BUZZER
+*/
+
 extern int timer_flag[NUM_OF_TIMERS + 1];
+extern int timer_counter[NUM_OF_TIMERS + 1];
 
 void setTimer(int flagNo, int duration);
 void timerRun();
