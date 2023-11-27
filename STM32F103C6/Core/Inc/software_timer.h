@@ -12,7 +12,7 @@
 
 #define NUM_OF_TIMERS 3
 
-extern int timer_flag[NUM_OF_TIMERS];
+extern int timer_flag[NUM_OF_TIMERS + 1];
 
 void setTimer(int flagNo, int duration);
 void timerRun();

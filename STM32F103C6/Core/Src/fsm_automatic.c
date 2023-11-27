@@ -100,10 +100,18 @@ void handleButtonProcess(int index) {
             green_counter = time_modify_counter;
         }
 
-        status = INIT;
+//        status = INIT;
     } 
-    else {                              /* BUTTON 4 -> PEDESTRIAN */
-        
+    else if (index == 4){                              /* BUTTON 4 -> PEDESTRIAN */
+        if(status == RED_AMBER || status == RED_GREEN){
+        	pedestrian_status = PEDESTRIAN_GREEN;
+        }
+        else if (status == GREEN_RED || status == AMBER_RED){
+        	pedestrian_status = PEDESTRIAN_RED;
+        }
+        else {
+        	pedestrian_status = PEDESTRIAN_INACTIVE;
+        }
     }
 }
 
@@ -115,6 +123,9 @@ void fsm_automatic_run(void) {
 
     switch (status) {
     case INIT:
+//    	INACTIVE pedestrian light when in INIT state
+    	pedestrian_status = PEDESTRIAN_INACTIVE;
+
         Red_Green();
         status = RED_GREEN;
 
@@ -136,6 +147,9 @@ void fsm_automatic_run(void) {
         if (timer_flag[0] == 1) {
             status = GREEN_RED;
             setTimer(0, green_counter);
+
+//          INACTIVE pedestrian light when traffic light is backing to GREEN_RED mode
+            pedestrian_status = PEDESTRIAN_INACTIVE;
         }
 
         break;
@@ -151,11 +165,17 @@ void fsm_automatic_run(void) {
         break;
 
     case AMBER_RED:
-        Yellow_Red();
+        Amber_Red();
 
         if (timer_flag[0] == 1) {
             status = RED_GREEN;
             setTimer(0, green_counter);
+
+//            if the pedestrian light is PEDESTRIAN_RED, change to PEDESTRIAN_GREEN when the traffic light is backing to RED_GREEN mode
+//            if the pedestrian light is INACTIVE => no change
+            if(pedestrian_status == PEDESTRIAN_RED){
+            	pedestrian_status = PEDESTRIAN_GREEN;
+            }
         }
         break;
     }

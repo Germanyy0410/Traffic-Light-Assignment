@@ -32,11 +32,18 @@
 #define MAN_AMBER        200
 #define MAN_GREEN        300
 
+// * Pedestrian status * //
+#define PEDESTRIAN_INACTIVE 400
+#define PEDESTRIAN_GREEN 500
+#define PEDESTRIAN_RED   600
+
 extern int status;				// status for traffic mode
 extern int pedestrian_status;   // status for pedestrian
 extern int red_counter;
-extern int abmer_counter;
+extern int amber_counter;
 extern int green_counter;
+
+extern int time_modify_counter;     /* STORE THE TEMPORARY VALUE TO ADJUST TIME LENGTH */
 
 void reset_to_normal_mode(void);
 

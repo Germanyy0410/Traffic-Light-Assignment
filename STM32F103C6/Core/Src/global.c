@@ -8,6 +8,8 @@
 #include "global.h"
 
 int status = INIT;
+int pedestrian_status = PEDESTRIAN_INACTIVE;
+int time_modify_counter = 0;
 
 int red_counter = 5000;
 int amber_counter = 2000;
