@@ -9,6 +9,8 @@
 
 int status = INIT;
 int pedestrian_status = PEDESTRIAN_INACTIVE;
+int buzzer_status = OFF;
+
 int time_modify_counter = 0;
 
 int red_counter = 5000;

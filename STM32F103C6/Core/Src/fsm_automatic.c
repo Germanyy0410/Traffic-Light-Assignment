@@ -67,12 +67,16 @@ void handleButtonProcess(int index) {
     if (index == 1) {                   /* BUTTON 1 -> CHANGE MODE */
         if (status == INIT || status == RED_GREEN || status == RED_AMBER || status == GREEN_RED || status == AMBER_RED) {
             status = MAN_RED;
+            pedestrian_status = PEDESTRIAN_INACTIVE;
         } else if (status == MAN_RED) {
             status = MAN_AMBER;
+            pedestrian_status = PEDESTRIAN_INACTIVE;
         } else if (status == MAN_AMBER) {
             status = MAN_GREEN;
+            pedestrian_status = PEDESTRIAN_INACTIVE;
         } else if (status == MAN_GREEN) {
             status = INIT;
+            pedestrian_status = PEDESTRIAN_INACTIVE;
         }
     }
     else if (index == 2) {              /* BUTTON 2 -> UPDATE TIME LENGTH */
@@ -92,18 +96,22 @@ void handleButtonProcess(int index) {
     else if (index == 3) {              /* BUTTON 3 -> STORE NEW TIME LENGTH */
         if (status == MAN_RED) {                    /* MODE 2 */
             red_counter = time_modify_counter;
+            green_counter = red_counter - amber_counter;
         } 
         else if (status == MAN_AMBER) {             /* MODE 3 */
             amber_counter = time_modify_counter;
+            red_counter = amber_counter + green_counter;
         } 
         else {                                      /* MODE 4 */
             green_counter = time_modify_counter;
+            red_counter = amber_counter + green_counter;
         }
 
-//        status = INIT;
+        status = INIT;
+
     } 
-    else if (index == 4){                              /* BUTTON 4 -> PEDESTRIAN */
-        if(status == RED_AMBER || status == RED_GREEN){
+    else if (index == 4) {               /* BUTTON 4 -> PEDESTRIAN */
+        if (status == RED_AMBER || status == RED_GREEN){
         	pedestrian_status = PEDESTRIAN_GREEN;
         }
         else if (status == GREEN_RED || status == AMBER_RED){
@@ -123,7 +131,7 @@ void fsm_automatic_run(void) {
 
     switch (status) {
     case INIT:
-//    	INACTIVE pedestrian light when in INIT state
+    	/* INACTIVE pedestrian light when in INIT state */
     	pedestrian_status = PEDESTRIAN_INACTIVE;
 
         Red_Green();
@@ -148,7 +156,7 @@ void fsm_automatic_run(void) {
             status = GREEN_RED;
             setTimer(0, green_counter);
 
-//          INACTIVE pedestrian light when traffic light is backing to GREEN_RED mode
+            /* INACTIVE pedestrian light when traffic light is backing to GREEN_RED mode */
             pedestrian_status = PEDESTRIAN_INACTIVE;
         }
 
@@ -171,8 +179,8 @@ void fsm_automatic_run(void) {
             status = RED_GREEN;
             setTimer(0, green_counter);
 
-//            if the pedestrian light is PEDESTRIAN_RED, change to PEDESTRIAN_GREEN when the traffic light is backing to RED_GREEN mode
-//            if the pedestrian light is INACTIVE => no change
+            /* If the pedestrian light is PEDESTRIAN_RED, change to PEDESTRIAN_GREEN when the traffic light is backing to RED_GREEN mode */
+            /* If the pedestrian light is INACTIVE => no change */
             if(pedestrian_status == PEDESTRIAN_RED){
             	pedestrian_status = PEDESTRIAN_GREEN;
             }
