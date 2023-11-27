@@ -10,11 +10,11 @@
 
 #include "global.h"
 
-#define NUM_OF_TIMERS 3
+#define NO_TIMERS 4
 
-extern int timer_flag[NUM_OF_TIMERS];
+extern int timer_flag[NO_TIMERS + 1];
 
-void setTimer(int flagNo, int duration);
+void setTimer(int, int);
 void timerRun();
 
 #endif /* INC_SOFTWARE_TIMER_H_ */
