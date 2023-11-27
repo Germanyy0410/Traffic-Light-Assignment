@@ -11,6 +11,7 @@ void fsm_automatic_run(void) {
     /* CHANGE TO MANUAL MODE WHEN BUTTON1 IS PRESSED */
     if (isButtonPressed(1)) {
     	status = MANUAL_MODE;
+		setTimer(0, 5000);				// reuse timer 0 to 5 seconds for manual event
     }
 
     switch (traffic_status) {

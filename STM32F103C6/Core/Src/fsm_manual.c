@@ -21,9 +21,16 @@ void fsm_manual_run(void) {
 			setTimer(1, 500);
 		}
 
+		/* OUT OF TIME FOR MANUAL EVENTS */
+		if (timer_flag[0] == 1) {
+			status = AUTOMATIC_MODE;
+			traffic_status = INIT;
+		}
+
 		/* CHANGE MODE = 3 (MAN_AMBER) WHEN BUTTON1 IS PRESSED */
 		if (isButtonPressed(1)) {
 			traffic_status = MAN_AMBER;
+			setTimer(0, 5000);	// reuse timer 0 to 5 seconds for manual event
 		}
 
 		/* MODIFY TIME LENGTH */
@@ -50,9 +57,16 @@ void fsm_manual_run(void) {
 			setTimer(1, 500);
 		}
 
+		/* OUT OF TIME FOR MANUAL EVENTS */
+		if (timer_flag[0] == 1) {
+			status = AUTOMATIC_MODE;
+			traffic_status = INIT;
+		}
+
 		/* CHANGE MODE = 4 (MAN_GREEN) WHEN BUTTON1 IS PRESSED */
 		if (isButtonPressed(1)) {
 			traffic_status = MAN_GREEN;
+			setTimer(0, 5000);	// reuse timer 0 to 5 seconds for manual event
 		}
 
 		/* MODIFY TIME LENGTH */
@@ -77,6 +91,12 @@ void fsm_manual_run(void) {
 			HAL_GPIO_TogglePin(LED_GREEN_1_GPIO_Port, LED_GREEN_1_Pin);
 			HAL_GPIO_TogglePin(LED_GREEN_2_GPIO_Port, LED_GREEN_2_Pin);
 			setTimer(1, 500);
+		}
+
+		/* OUT OF TIME FOR MANUAL EVENTS */
+		if (timer_flag[0] == 1) {
+			status = AUTOMATIC_MODE;
+			traffic_status = INIT;
 		}
 
 		/* CHANGE MODE = 1 (AUTOMATIC) WHEN BUTTON1 IS PRESSED */
