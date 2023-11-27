@@ -34,10 +34,14 @@
 extern int status;            // general status
 extern int traffic_status;    // status for traffic mode
 extern int pedestrian_status; // status for pedestrian
+
 extern int red_counter;
 extern int amber_counter;
 extern int green_counter;
+
 extern int time_modify_counter; /* STORE THE TEMPORARY VALUE TO ADJUST TIME LENGTH */
+extern int counter_light_1; 	// counter for light 1
+extern int counter_light_2; 	// counter for light 2
 
 void reset_to_normal_mode(void);
 

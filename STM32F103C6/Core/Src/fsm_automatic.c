@@ -14,10 +14,22 @@ void fsm_automatic_run(void) {
 		setTimer(0, 5000);				// reuse timer 0 to 5 seconds for manual event
     }
 
+    if (timer_flag[2] == 1) {
+    	counter_light_1--;
+    	counter_light_2--;
+        setTimer(2, 1000); // set timer 2 to 1 second to update counter light
+    }
+
     switch (traffic_status) {
     case INIT:
         Red_Green();
         traffic_status = RED_GREEN;
+        setTimer(0, green_counter);
+
+        setTimer(2, 1000); // set timer 2 to 1 second to update counter light
+
+        counter_light_1 = red_counter;
+        counter_light_2 = green_counter;
 
         break;
 
@@ -27,6 +39,8 @@ void fsm_automatic_run(void) {
         if (timer_flag[0] == 1) {
             traffic_status = RED_AMBER;
             setTimer(0, amber_counter);
+
+            counter_light_2 = amber_counter;
         }    
 
         break;
@@ -37,6 +51,9 @@ void fsm_automatic_run(void) {
         if (timer_flag[0] == 1) {
             traffic_status = GREEN_RED;
             setTimer(0, green_counter);
+
+            counter_light_1 = green_counter;
+            counter_light_2 = red_counter;
         }
 
         break;
@@ -47,6 +64,8 @@ void fsm_automatic_run(void) {
         if (timer_flag[0] == 1) {
             traffic_status = AMBER_RED;
             setTimer(0, amber_counter);
+
+            counter_light_1 = amber_counter;
         }
 
         break;
@@ -57,6 +76,9 @@ void fsm_automatic_run(void) {
         if (timer_flag[0] == 1) {
             traffic_status = RED_GREEN;
             setTimer(0, green_counter);
+
+            counter_light_1 = red_counter;
+            counter_light_2 = green_counter;
         }
         break;
     }
