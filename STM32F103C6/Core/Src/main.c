@@ -22,13 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "button.h"
-#include "fsm_automatic.h"
-#include "fsm_manual.h"
-#include "fsm_pedestrian.h"
-#include "global.h"
 #include "led_display.h"
-#include "software_timer.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -103,9 +97,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    fsm_automatic_run();
-    fsm_manual_run();
-    fsm_pedestrian_run();
+    fsm_mode();
+    send7SEG();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
