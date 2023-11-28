@@ -7,6 +7,29 @@
 
 #include "led_display.h"
 
+void fsm_mode() {
+	switch (status) {
+	    case INIT:
+	        status = AUTOMATIC_MODE;
+	        break;
+
+	    case AUTOMATIC_MODE:
+	        fsm_automatic_run();
+	        break;
+
+	    case MANUAL_MODE:
+	        fsm_manual_run();
+	        break;
+
+	    case TUNING_MODE:
+	        fsm_tuning_run();
+	        break;
+
+	    default:
+	        break;
+	    }
+}
+
 void send7SEG(void) {
     
 }
