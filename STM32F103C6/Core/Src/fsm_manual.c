@@ -41,6 +41,9 @@ void fsm_manual_run(void) {
 		/* CONFIRM TIME LENGTH */
 		if (isButtonPressed(3)) {
 			red_counter = time_modify_counter;
+			green_counter = red_counter - amber_counter;
+			status = AUTOMATIC_MODE;
+			traffic_status = INIT;
 		}
 
 		break;
@@ -77,6 +80,9 @@ void fsm_manual_run(void) {
 		/* CONFIRM TIME LENGTH */
 		if (isButtonPressed(3)) {
 			amber_counter = time_modify_counter;
+			red_counter = amber_counter + green_counter;
+			status = AUTOMATIC_MODE;
+			traffic_status = INIT;
 		}
 
 		break;
@@ -113,6 +119,9 @@ void fsm_manual_run(void) {
 		/* CONFIRM TIME LENGTH */
 		if (isButtonPressed(3)) {
 			green_counter = time_modify_counter;
+			red_counter = amber_counter + green_counter;
+			status = AUTOMATIC_MODE;
+			traffic_status = INIT;
 		}
 		break;
 	default: // change traffic state to MAN_RED when change from AUTOMATIC to MANUAL
