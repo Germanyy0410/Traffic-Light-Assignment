@@ -29,7 +29,15 @@ void fsm_pedestrian_run(void) {
 		buzzer_status = OFF;
 
 		if (isButtonPressed(4)) {
-			handleButtonProcess(4);
+			if (traffic_status == RED_AMBER || traffic_status == RED_GREEN) {
+				pedestrian_status = PEDESTRIAN_GREEN;
+			}
+			else if (traffic_status == GREEN_RED || traffic_status == AMBER_RED) {
+				pedestrian_status = PEDESTRIAN_RED;
+			}
+			else {
+				pedestrian_status = PEDESTRIAN_INACTIVE;
+			}
 		}
 		break;
 
