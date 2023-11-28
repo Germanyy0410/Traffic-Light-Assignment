@@ -69,11 +69,11 @@ void fsm_buzzer_run() {
 			buzzer_volume = 10;
 		}
 
-		if (timer_flag[2] == 1) {
+		if (timer_flag[3] == 1) {
 			buzzer_volume = (buzzer_volume == 0) ? 10 : 0;
 			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
 
-			setTimer(2, 1000);
+			setTimer(3, 1000);
 		}
 		break;
 
@@ -85,11 +85,11 @@ void fsm_buzzer_run() {
 		/* INCREASE VOLUME AND DECREASE TIME FREQUENCY */
 		freq += 10;		
 		
-		if (timer_flag[2] == 1) {
+		if (timer_flag[3] == 1) {
 			buzzer_volume = (buzzer_volume == 0) ? (10 + freq) : 0;
 			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
 
-			setTimer(2, (1000 - freq * 10));
+			setTimer(3, (1000 - freq * 10));
 		}
 
 		break;
