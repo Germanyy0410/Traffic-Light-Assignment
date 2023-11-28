@@ -7,135 +7,32 @@
 
 #include "fsm_automatic.h"
 
-void Red_Green(void) {
-    //TODO
-    HAL_GPIO_WritePin(LED_RED_1_GPIO_Port, LED_RED_1_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(LED_AMBER_1_GPIO_Port, LED_AMBER_1_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_GREEN_1_GPIO_Port, LED_GREEN_1_Pin, GPIO_PIN_RESET);
-
-    HAL_GPIO_WritePin(LED_RED_2_GPIO_Port, LED_RED_2_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_AMBER_2_GPIO_Port, LED_AMBER_2_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_GREEN_2_GPIO_Port, LED_GREEN_2_Pin, GPIO_PIN_SET);
-}
-
-void Red_Amber(void) {
-    //TODO
-    HAL_GPIO_WritePin(LED_RED_1_GPIO_Port, LED_RED_1_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(LED_AMBER_1_GPIO_Port, LED_AMBER_1_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_GREEN_1_GPIO_Port, LED_GREEN_1_Pin, GPIO_PIN_RESET);
-
-    HAL_GPIO_WritePin(LED_RED_2_GPIO_Port, LED_RED_2_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_AMBER_2_GPIO_Port, LED_AMBER_2_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(LED_GREEN_2_GPIO_Port, LED_GREEN_2_Pin, GPIO_PIN_RESET);
-}
-
-void Green_Red(void) {
-    //TODO
-    HAL_GPIO_WritePin(LED_RED_1_GPIO_Port, LED_RED_1_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_AMBER_1_GPIO_Port, LED_AMBER_1_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_GREEN_1_GPIO_Port, LED_GREEN_1_Pin, GPIO_PIN_SET);
-
-    HAL_GPIO_WritePin(LED_RED_2_GPIO_Port, LED_RED_2_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(LED_AMBER_2_GPIO_Port, LED_AMBER_2_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_GREEN_2_GPIO_Port, LED_GREEN_2_Pin, GPIO_PIN_RESET);
-}
-
-void Amber_Red(void) {
-    //TODO
-    HAL_GPIO_WritePin(LED_RED_1_GPIO_Port, LED_RED_1_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_AMBER_1_GPIO_Port, LED_AMBER_1_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(LED_GREEN_1_GPIO_Port, LED_GREEN_1_Pin, GPIO_PIN_RESET);
-
-    HAL_GPIO_WritePin(LED_RED_2_GPIO_Port, LED_RED_2_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(LED_AMBER_2_GPIO_Port, LED_AMBER_2_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_GREEN_2_GPIO_Port, LED_GREEN_2_Pin, GPIO_PIN_RESET);
-}
-
-void light_Off(void) {
-    //TODO
-    HAL_GPIO_WritePin(LED_RED_1_GPIO_Port, LED_RED_1_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_AMBER_1_GPIO_Port, LED_AMBER_1_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_GREEN_1_GPIO_Port, LED_GREEN_1_Pin, GPIO_PIN_RESET);
-
-    HAL_GPIO_WritePin(LED_RED_2_GPIO_Port, LED_RED_2_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_AMBER_2_GPIO_Port, LED_AMBER_2_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LED_GREEN_2_GPIO_Port, LED_GREEN_2_Pin, GPIO_PIN_RESET);
-}
-
-/* DO SOMEHING WHEN BUTTON IS PRESSED */
-void handleButtonProcess(int index) {
-    if (index == 1) {                   /* BUTTON 1 -> CHANGE MODE */
-        if (status == INIT || status == RED_GREEN || status == RED_AMBER || status == GREEN_RED || status == AMBER_RED) {
-            status = MAN_RED;
-            pedestrian_status = PEDESTRIAN_INACTIVE;
-        } else if (status == MAN_RED) {
-            status = MAN_AMBER;
-            pedestrian_status = PEDESTRIAN_INACTIVE;
-        } else if (status == MAN_AMBER) {
-            status = MAN_GREEN;
-            pedestrian_status = PEDESTRIAN_INACTIVE;
-        } else if (status == MAN_GREEN) {
-            status = INIT;
-            pedestrian_status = PEDESTRIAN_INACTIVE;
-        }
-    }
-    else if (index == 2) {              /* BUTTON 2 -> UPDATE TIME LENGTH */
-        if (status == MAN_RED) {                /* MODE 2 */
-            time_modify_counter = red_counter;
-            time_modify_counter = (time_modify_counter == 99000) ? 0 : (time_modify_counter + 1000);
-        } 
-        else if (status == MAN_AMBER) {       /* MODE 3 */
-            time_modify_counter = amber_counter;
-            time_modify_counter = (time_modify_counter == 99000) ? 0 : (time_modify_counter + 1000);
-        } 
-        else {                                /* MODE 4 */
-            time_modify_counter = green_counter;
-            time_modify_counter = (time_modify_counter == 99000) ? 0 : (time_modify_counter + 1000);
-        }
-    }
-    else if (index == 3) {              /* BUTTON 3 -> STORE NEW TIME LENGTH */
-        if (status == MAN_RED) {                    /* MODE 2 */
-            red_counter = time_modify_counter;
-            green_counter = red_counter - amber_counter;
-        } 
-        else if (status == MAN_AMBER) {             /* MODE 3 */
-            amber_counter = time_modify_counter;
-            red_counter = amber_counter + green_counter;
-        } 
-        else {                                      /* MODE 4 */
-            green_counter = time_modify_counter;
-            red_counter = amber_counter + green_counter;
-        }
-
-        status = INIT;
-
-    } 
-    else if (index == 4) {               /* BUTTON 4 -> PEDESTRIAN */
-        if (status == RED_AMBER || status == RED_GREEN){
-        	pedestrian_status = PEDESTRIAN_GREEN;
-        }
-        else if (status == GREEN_RED || status == AMBER_RED){
-        	pedestrian_status = PEDESTRIAN_RED;
-        }
-        else {
-        	pedestrian_status = PEDESTRIAN_INACTIVE;
-        }
-    }
-}
-
 void fsm_automatic_run(void) {
-    /* CHANGE MODE = 2 (MAN_RED) WHEN BUTTON1 IS PRESSED */
+    /* CHANGE TO MANUAL MODE WHEN BUTTON1 IS PRESSED */
     if (isButtonPressed(1)) {
-        handleButtonProcess(1);
+    	status = MANUAL_MODE;
+		setTimer(0, 5000);				// reuse timer 0 to 5 seconds for manual event
     }
 
-    switch (status) {
+    if (timer_flag[2] == 1) {
+    	counter_light_1--;
+    	counter_light_2--;
+        setTimer(2, 1000); // set timer 2 to 1 second to update counter light
+    }
+
+    switch (traffic_status) {
     case INIT:
     	/* INACTIVE pedestrian light when in INIT state */
     	pedestrian_status = PEDESTRIAN_INACTIVE;
 
         Red_Green();
-        status = RED_GREEN;
+        traffic_status = RED_GREEN;
+        setTimer(0, green_counter);
+
+        setTimer(2, 1000); // set timer 2 to 1 second to update counter light
+
+        counter_light_1 = red_counter;
+        counter_light_2 = green_counter;
 
         break;
 
@@ -143,8 +40,10 @@ void fsm_automatic_run(void) {
         Red_Green();
 
         if (timer_flag[0] == 1) {
-            status = RED_AMBER;
+            traffic_status = RED_AMBER;
             setTimer(0, amber_counter);
+
+            counter_light_2 = amber_counter;
         }    
 
         break;
@@ -153,8 +52,11 @@ void fsm_automatic_run(void) {
         Red_Amber();
 
         if (timer_flag[0] == 1) {
-            status = GREEN_RED;
+            traffic_status = GREEN_RED;
             setTimer(0, green_counter);
+
+            counter_light_1 = green_counter;
+            counter_light_2 = red_counter;
 
             /* INACTIVE pedestrian light when traffic light is backing to GREEN_RED mode */
             pedestrian_status = PEDESTRIAN_INACTIVE;
@@ -166,18 +68,23 @@ void fsm_automatic_run(void) {
         Green_Red();
 
         if (timer_flag[0] == 1) {
-            status = AMBER_RED;
+            traffic_status = AMBER_RED;
             setTimer(0, amber_counter);
+
+            counter_light_1 = amber_counter;
         }
 
         break;
 
     case AMBER_RED:
-        Amber_Red();
+    	Amber_Red();
 
         if (timer_flag[0] == 1) {
-            status = RED_GREEN;
+            traffic_status = RED_GREEN;
             setTimer(0, green_counter);
+
+            counter_light_1 = red_counter;
+            counter_light_2 = green_counter;
 
             /* If the pedestrian light is PEDESTRIAN_RED, change to PEDESTRIAN_GREEN when the traffic light is backing to RED_GREEN mode */
             /* If the pedestrian light is INACTIVE => no change */

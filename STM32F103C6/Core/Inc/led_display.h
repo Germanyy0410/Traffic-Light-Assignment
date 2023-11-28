@@ -9,7 +9,11 @@
 #define INC_LED_DISPLAY_H_
 
 #include "global.h"
+#include "fsm_automatic.h"
+#include "fsm_manual.h"
+#include "fsm_tuning.h"
 
+void fsm_mode();
 void send7SEG(void);
 
 #endif /* INC_LED_DISPLAY_H_ */
