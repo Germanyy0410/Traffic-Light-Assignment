@@ -11,6 +11,12 @@
 #include "main.h"
 #include "button.h"
 #include "software_timer.h"
+#include "fsm_automatic.h"
+#include "fsm_manual.h"
+#include "fsm_tuning.h"
+#include "fsm_pedestrian.h"
+#include "graphics.h"
+#include "led_display.h"
 
 #define INIT 3
 #define AUTOMATIC_MODE 4

@@ -12,8 +12,8 @@
 
 #define NO_TIMERS 4
 
-extern int timer_flag[NUM_OF_TIMERS];
-extern int timer_counter[NUM_OF_TIMERS + 1];
+extern int timer_flag[NO_TIMERS + 1];
+extern int timer_counter[NO_TIMERS + 1];
 
 void setTimer(int, int);
 void timerRun();

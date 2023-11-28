@@ -8,18 +8,18 @@
 #include "fsm_pedestrian.h"
 
 void PedestrianRed() {
-	HAL_GPIO_WritePin(D6_PEDESTRIAN_GPIO_Port, D6_PEDESTRIAN_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(D7_PEDESTRIAN_GPIO_Port, D7_PEDESTRIAN_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(D6_PEDESTRIAN_GPIO_Port, D6_PEDESTRIAN_Pin, 1);
+	HAL_GPIO_WritePin(D7_PEDESTRIAN_GPIO_Port, D7_PEDESTRIAN_Pin, 0);
 }
 
 void PedestrianGreen() {
-	HAL_GPIO_WritePin(D6_PEDESTRIAN_GPIO_Port, D6_PEDESTRIAN_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(D7_PEDESTRIAN_GPIO_Port, D7_PEDESTRIAN_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(D6_PEDESTRIAN_GPIO_Port, D6_PEDESTRIAN_Pin, 0);
+	HAL_GPIO_WritePin(D7_PEDESTRIAN_GPIO_Port, D7_PEDESTRIAN_Pin, 1);
 }
 
 void PedestrianInvalid() {
-	HAL_GPIO_WritePin(D6_PEDESTRIAN_GPIO_Port, D6_PEDESTRIAN_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(D7_PEDESTRIAN_GPIO_Port, D7_PEDESTRIAN_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(D6_PEDESTRIAN_GPIO_Port, D6_PEDESTRIAN_Pin, 0);
+	HAL_GPIO_WritePin(D7_PEDESTRIAN_GPIO_Port, D7_PEDESTRIAN_Pin, 0);
 }
 
 void fsm_pedestrian_run(void) {
@@ -57,7 +57,7 @@ int buzzer_volume = 0;
 int freq = 0;			
 
 void fsm_buzzer_run() {
-    switch(buzzer_status) {
+   switch(buzzer_status) {
 	case OFF:
 		buzzer_volume = 0;
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
@@ -83,8 +83,8 @@ void fsm_buzzer_run() {
 		}
 
 		/* INCREASE VOLUME AND DECREASE TIME FREQUENCY */
-		freq += 10;		
-		
+		freq += 10;
+
 		if (timer_flag[3] == 1) {
 			buzzer_volume = (buzzer_volume == 0) ? (10 + freq) : 0;
 			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);

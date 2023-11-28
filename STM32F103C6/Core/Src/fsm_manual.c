@@ -10,10 +10,6 @@
 void fsm_manual_run(void) {
 	switch (traffic_status) {
 	case MAN_RED:
-		/* TURN OFF LIGHTS */
-		light_Off();
-		setTimer(1, 500);
-
 		/* BLINK LEDs */
 		if (timer_flag[1] == 1) {
 			HAL_GPIO_TogglePin(LED_RED_1_GPIO_Port, LED_RED_1_Pin);
@@ -49,10 +45,6 @@ void fsm_manual_run(void) {
 		break;
 
 	case MAN_AMBER:
-		/* TURN OFF LIGHTS */
-		light_Off();
-		setTimer(1, 500);
-
 		/* BLINK LEDs */
 		if (timer_flag[1] == 1) {
 			HAL_GPIO_TogglePin(LED_AMBER_1_GPIO_Port, LED_AMBER_1_Pin);
@@ -88,10 +80,6 @@ void fsm_manual_run(void) {
 		break;
 
 	case MAN_GREEN:
-		/* TURN OFF LIGHTS */
-		light_Off();
-		setTimer(1, 500);
-
 		/* BLINK LEDs */
 		if (timer_flag[1] == 1) {
 			HAL_GPIO_TogglePin(LED_GREEN_1_GPIO_Port, LED_GREEN_1_Pin);

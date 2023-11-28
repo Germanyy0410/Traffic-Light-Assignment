@@ -9,8 +9,8 @@
 
 #define TIMER_CYCLE 10
 
-int timer_flag[NUM_OF_TIMERS + 1];
-int timer_counter[NUM_OF_TIMERS + 1];
+int timer_flag[NO_TIMERS + 1];
+int timer_counter[NO_TIMERS + 1];
 
 void setTimer(int flagNo, int duration) {
 	timer_counter[flagNo] = duration / TIMER_CYCLE;

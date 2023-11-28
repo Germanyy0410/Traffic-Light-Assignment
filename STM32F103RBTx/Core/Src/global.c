@@ -17,3 +17,5 @@ int traffic_status = INIT;
 int red_counter = 5000;
 int amber_counter = 2000;
 int green_counter = 3000;
+int counter_light_1 = 5000;
+int counter_light_2 = 3000;
