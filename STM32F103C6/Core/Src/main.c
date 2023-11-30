@@ -1,28 +1,31 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2023 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under BSD 3-Clause license,
+ * the "License"; You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                        opensource.org/licenses/BSD-3-Clause
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "led_display.h"
+#include "graphics.h"
+#include "global.h"
+#include "fsm_automatic.h"
+#include "fsm_manual.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,6 +45,8 @@
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim2;
 
+UART_HandleTypeDef huart2;
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -50,13 +55,22 @@ TIM_HandleTypeDef htim2;
 void SystemClock_Config(void);
 static void MX_TIM2_Init(void);
 static void MX_GPIO_Init(void);
+static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+	if (huart->Instance == USART2) {
+		buffer[index_buffer++] = temp;
+		if (index_buffer == 30) index_buffer = 0;
+		buffer_flag = 1;
+		HAL_UART_Transmit(&huart2, &temp, 1, 50);
+		HAL_UART_Receive_IT(&huart2, &temp, 1);
+	}
+}
 /* USER CODE END 0 */
 
 /**
@@ -82,25 +96,29 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-  HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_TIM2_Init();
   MX_GPIO_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+	initButton();
+	while (1) {
+		if (status == AUTOMATIC_MODE)
+			fsm_automatic_run();
+		else if (status == MANUAL_MODE)
+			fsm_manual_run();
+		display7SegmentLight();
     /* USER CODE END WHILE */
-    fsm_mode();
-    send7SEG();
+
     /* USER CODE BEGIN 3 */
-  }
+	}
   /* USER CODE END 3 */
 }
 
@@ -160,7 +178,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 7999;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 79;
+  htim2.Init.Period = 9;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -185,6 +203,39 @@ static void MX_TIM2_Init(void)
 }
 
 /**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 9600;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+
+  /* USER CODE END USART2_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -198,12 +249,15 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, BUZZER_Pin|D7_PEDESTRIAN_Pin|LED_1_Pin|LED_RED_2_Pin
-                          |LED_AMBER_2_Pin|LED_GREEN_2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, SEG2_Pin|BUZZER_Pin|SEG3_Pin|D7_PEDESTRIAN_Pin
+                          |SEG4_Pin|LED_1_Pin|SEG5_Pin|SEG6_Pin
+                          |LED_RED_2_Pin|LED_AMBER_2_Pin|LED_GREEN_2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, D6_PEDESTRIAN_Pin|LED_RED_1_Pin|LED_AMBER_1_Pin|LED_GREEN_1_Pin
-                          |LED_2_Pin|LED_4_Pin|LED_3_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, SEG0_Pin|SEG1_Pin|D6_PEDESTRIAN_Pin|LED_RED_1_Pin
+                          |LED_AMBER_1_Pin|LED_GREEN_1_Pin|LED_2_Pin|LED_4_Pin
+                          |LED_3_Pin|EN0_Pin|EN1_Pin|EN2_Pin
+                          |EN3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : BUTTON_PEDESTRIAN_Pin BUTTON_1_Pin BUTTON_2_Pin */
   GPIO_InitStruct.Pin = BUTTON_PEDESTRIAN_Pin|BUTTON_1_Pin|BUTTON_2_Pin;
@@ -211,10 +265,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : BUZZER_Pin D7_PEDESTRIAN_Pin LED_1_Pin LED_RED_2_Pin
-                           LED_AMBER_2_Pin LED_GREEN_2_Pin */
-  GPIO_InitStruct.Pin = BUZZER_Pin|D7_PEDESTRIAN_Pin|LED_1_Pin|LED_RED_2_Pin
-                          |LED_AMBER_2_Pin|LED_GREEN_2_Pin;
+  /*Configure GPIO pins : SEG2_Pin BUZZER_Pin SEG3_Pin D7_PEDESTRIAN_Pin
+                           SEG4_Pin LED_1_Pin SEG5_Pin SEG6_Pin
+                           LED_RED_2_Pin LED_AMBER_2_Pin LED_GREEN_2_Pin */
+  GPIO_InitStruct.Pin = SEG2_Pin|BUZZER_Pin|SEG3_Pin|D7_PEDESTRIAN_Pin
+                          |SEG4_Pin|LED_1_Pin|SEG5_Pin|SEG6_Pin
+                          |LED_RED_2_Pin|LED_AMBER_2_Pin|LED_GREEN_2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -226,10 +282,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(BUTTON_3_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : D6_PEDESTRIAN_Pin LED_RED_1_Pin LED_AMBER_1_Pin LED_GREEN_1_Pin
-                           LED_2_Pin LED_4_Pin LED_3_Pin */
-  GPIO_InitStruct.Pin = D6_PEDESTRIAN_Pin|LED_RED_1_Pin|LED_AMBER_1_Pin|LED_GREEN_1_Pin
-                          |LED_2_Pin|LED_4_Pin|LED_3_Pin;
+  /*Configure GPIO pins : SEG0_Pin SEG1_Pin D6_PEDESTRIAN_Pin LED_RED_1_Pin
+                           LED_AMBER_1_Pin LED_GREEN_1_Pin LED_2_Pin LED_4_Pin
+                           LED_3_Pin EN0_Pin EN1_Pin EN2_Pin
+                           EN3_Pin */
+  GPIO_InitStruct.Pin = SEG0_Pin|SEG1_Pin|D6_PEDESTRIAN_Pin|LED_RED_1_Pin
+                          |LED_AMBER_1_Pin|LED_GREEN_1_Pin|LED_2_Pin|LED_4_Pin
+                          |LED_3_Pin|EN0_Pin|EN1_Pin|EN2_Pin
+                          |EN3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -239,8 +299,8 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-  timerRun();
-  getKeyInput();
+	timerRun();
+	getKeyInput();
 }
 /* USER CODE END 4 */
 
@@ -251,11 +311,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
+	/* User can add his own implementation to report the HAL error return state */
+	__disable_irq();
+	while (1) {
+	}
   /* USER CODE END Error_Handler_Debug */
 }
 

@@ -1,0 +1,10 @@
+graphics.c:10:6:resetLights	8	static
+graphics.c:29:6:setRedLight1	16	static
+graphics.c:35:6:setGreenLight1	16	static
+graphics.c:41:6:setAmberLight1	16	static
+graphics.c:48:6:setRedLight2	16	static
+graphics.c:54:6:setGreenLight2	16	static
+graphics.c:60:6:setAmberLight2	16	static
+graphics.c:67:6:display7SegmentLED	320	static
+graphics.c:89:6:display7SegmentLight	64	static
+graphics.c:156:6:send7SEG	4	static

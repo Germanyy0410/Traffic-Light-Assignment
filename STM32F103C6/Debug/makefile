@@ -50,6 +50,9 @@ default.size.stdout \
 OBJDUMP_LIST += \
 assignment-simulation.list \
 
+OBJCOPY_HEX += \
+assignment-simulation.hex \
+
 OBJCOPY_BIN += \
 assignment-simulation.bin \
 
@@ -61,8 +64,8 @@ all: main-build
 main-build: assignment-simulation.elf secondary-outputs
 
 # Tool invocations
-assignment-simulation.elf: $(OBJS) $(USER_OBJS) C:\Users\HP\STM32CubeIDE\Asssignment_MCU\MCU-Assignment\STM32F103C6\STM32F103C6UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "assignment-simulation.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\HP\STM32CubeIDE\Asssignment_MCU\MCU-Assignment\STM32F103C6\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="assignment-simulation.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+assignment-simulation.elf: $(OBJS) $(USER_OBJS) C:\Users\ASUS\MCU-Assignment\STM32F103C6\STM32F103C6UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "assignment-simulation.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\ASUS\MCU-Assignment\STM32F103C6\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="assignment-simulation.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -76,6 +79,11 @@ assignment-simulation.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL
 	@echo 'Finished building: $@'
 	@echo ' '
 
+assignment-simulation.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "assignment-simulation.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 assignment-simulation.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "assignment-simulation.bin"
 	@echo 'Finished building: $@'
@@ -83,10 +91,10 @@ assignment-simulation.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_
 
 # Other Targets
 clean:
-	-$(RM) $(SIZE_OUTPUT)$(OBJDUMP_LIST)$(EXECUTABLES)$(OBJS)$(S_DEPS)$(S_UPPER_DEPS)$(C_DEPS)$(OBJCOPY_BIN) assignment-simulation.elf
+	-$(RM) $(OBJCOPY_HEX)$(SIZE_OUTPUT)$(OBJDUMP_LIST)$(EXECUTABLES)$(OBJS)$(S_DEPS)$(S_UPPER_DEPS)$(C_DEPS)$(OBJCOPY_BIN) assignment-simulation.elf
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
