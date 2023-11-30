@@ -29,12 +29,12 @@ void initButton() {
 }
 
 void getKeyInput() {
-    for (int i = 1; i < NO_BUTTONS; i++) {
+    for (int i = 1; i <= NO_BUTTONS; i++) {
         KeyReg0[i] = KeyReg1[i];
         KeyReg1[i] = KeyReg2[i];
 
         if (i == 1) KeyReg2[i] = HAL_GPIO_ReadPin(BUTTON_1_GPIO_Port, BUTTON_1_Pin);
-        if (i == 2) KeyReg2[i] = HAL_GPIO_ReadPin(BUTTON_2_GPIO_Port, BUTTON_2_Pin);
+        if (i == 2) KeyReg2[i] = HAL_GPIO_ReadPin(BUTTON_2_1_GPIO_Port, BUTTON_2_1_Pin);
         if (i == 3) KeyReg2[i] = HAL_GPIO_ReadPin(BUTTON_3_GPIO_Port, BUTTON_3_Pin);
         if (i == 4) KeyReg2[i] = HAL_GPIO_ReadPin(BUTTON_PEDESTRIAN_GPIO_Port, BUTTON_PEDESTRIAN_Pin);
 
@@ -61,8 +61,8 @@ void getKeyInput() {
 }
 
 int isButtonPressed(int index) {
-	if (index > NO_BUTTONS)
-		return 0;
+//	if (index > NO_BUTTONS)
+//		return 0;
 
 	if (button_flag[index]) {
 		button_flag[index] = 0;

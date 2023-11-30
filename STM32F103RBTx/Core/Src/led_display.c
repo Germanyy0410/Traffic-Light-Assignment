@@ -15,6 +15,9 @@ void fsm_mode() {
 
 	    case AUTOMATIC_MODE:
 	        fsm_automatic_run();
+	        fsm_pedestrian_run();
+	        fsm_buzzer_run();
+
 	        break;
 
 	    case MANUAL_MODE:

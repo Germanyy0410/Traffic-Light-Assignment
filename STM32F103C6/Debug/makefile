@@ -64,8 +64,8 @@ all: main-build
 main-build: assignment-simulation.elf secondary-outputs
 
 # Tool invocations
-assignment-simulation.elf: $(OBJS) $(USER_OBJS) C:\Users\ASUS\MCU-Assignment\STM32F103C6\STM32F103C6UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "assignment-simulation.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\ASUS\MCU-Assignment\STM32F103C6\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="assignment-simulation.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+assignment-simulation.elf: $(OBJS) $(USER_OBJS) D:\MCU_LAB\MCU\ -\ Assignment\STM32F103C6\STM32F103C6UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "assignment-simulation.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\MCU_LAB\MCU - Assignment\STM32F103C6\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="assignment-simulation.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -66,8 +66,6 @@ void Error_Handler(void);
 #define BUTTON_1_GPIO_Port GPIOA
 #define BUTTON_2_Pin GPIO_PIN_4
 #define BUTTON_2_GPIO_Port GPIOA
-#define BUZZER_Pin GPIO_PIN_6
-#define BUZZER_GPIO_Port GPIOA
 #define BUTTON_3_Pin GPIO_PIN_0
 #define BUTTON_3_GPIO_Port GPIOB
 #define D6_PEDESTRIAN_Pin GPIO_PIN_10
@@ -83,7 +81,7 @@ void Error_Handler(void);
 #define LED_3_Pin GPIO_PIN_5
 #define LED_3_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
-
+TIM_HandleTypeDef htim3;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

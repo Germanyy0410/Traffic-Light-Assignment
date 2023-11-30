@@ -29,7 +29,7 @@ void initButton() {
 }
 
 void getKeyInput() {
-    for (int i = 1; i < NO_BUTTONS; i++) {
+    for (int i = 1; i <= NO_BUTTONS; i++) {
         KeyReg0[i] = KeyReg1[i];
         KeyReg1[i] = KeyReg2[i];
 

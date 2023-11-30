@@ -66,11 +66,11 @@ void fsm_buzzer_run() {
 	case ON:
 		if (status == RED_AMBER && timer_counter[0] <= amber_counter) {
 			buzzer_status = HURRY;
-			buzzer_volume = 10;
+			buzzer_volume = 20;
 		}
 
 		if (timer_flag[3] == 1) {
-			buzzer_volume = (buzzer_volume == 0) ? 10 : 0;
+			buzzer_volume = (buzzer_volume == 0) ? 20 : 0;
 			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
 
 			setTimer(3, 1000);
@@ -83,10 +83,10 @@ void fsm_buzzer_run() {
 		}
 
 		/* INCREASE VOLUME AND DECREASE TIME FREQUENCY */
-		freq += 10;
+		freq += 20;
 
 		if (timer_flag[3] == 1) {
-			buzzer_volume = (buzzer_volume == 0) ? (10 + freq) : 0;
+			buzzer_volume = (buzzer_volume == 0) ? (20 + freq) : 0;
 			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
 
 			setTimer(3, (1000 - freq * 10));
