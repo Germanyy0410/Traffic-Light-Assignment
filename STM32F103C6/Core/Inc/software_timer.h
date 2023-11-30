@@ -1,19 +1,16 @@
 /*
  * software_timer.h
  *
- *  Created on: 21 thg 11, 2023
- *      Author: ProX
+ *  Created on: Oct 26, 2023
+ *      Author: ASUS
  */
 
 #ifndef INC_SOFTWARE_TIMER_H_
 #define INC_SOFTWARE_TIMER_H_
 
-#include "global.h"
+#define NO_TIMERS 3
 
-#define NO_TIMERS 4
-
-extern int timer_flag[NUM_OF_TIMERS];
-extern int timer_counter[NUM_OF_TIMERS + 1];
+extern int timer_flag[NO_TIMERS + 1];
 
 void setTimer(int, int);
 void timerRun();

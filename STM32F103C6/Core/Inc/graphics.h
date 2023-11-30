@@ -8,12 +8,17 @@
 #ifndef INC_GRAPHICS_H_
 #define INC_GRAPHICS_H_
 
-#include "main.h"
+#include "global.h"
 
-void Red_Green(void);
-void Red_Amber(void);
-void Green_Red(void);
-void Amber_Red(void);
-void light_Off(void);
+void resetLights();
+void setRedLight1(int blink);
+void setGreenLight1(int blink);
+void setAmberLight1(int blink);
+void setRedLight2(int blink);
+void setGreenLight2(int blink);
+void setAmberLight2(int blink);
+
+void display7SegmentLED(int number, GPIO_TypeDef *GPIOx[], uint16_t GPIO_Pins[]);
+void display7SegmentLight();
 
 #endif /* INC_GRAPHICS_H_ */

@@ -57,41 +57,41 @@ int buzzer_volume = 0;
 int freq = 0;			
 
 void fsm_buzzer_run() {
-    switch(buzzer_status) {
-	case OFF:
-		buzzer_volume = 0;
-		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
-		break;
-
-	case ON:
-		if (status == RED_AMBER && timer_counter[0] <= amber_counter) {
-			buzzer_status = HURRY;
-			buzzer_volume = 10;
-		}
-
-		if (timer_flag[3] == 1) {
-			buzzer_volume = (buzzer_volume == 0) ? 10 : 0;
-			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
-
-			setTimer(3, 1000);
-		}
-		break;
-
-	case HURRY:
-		if (status != RED_AMBER && status != RED_GREEN) {
-			buzzer_status = OFF;
-		}
-
-		/* INCREASE VOLUME AND DECREASE TIME FREQUENCY */
-		freq += 10;		
-		
-		if (timer_flag[3] == 1) {
-			buzzer_volume = (buzzer_volume == 0) ? (10 + freq) : 0;
-			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
-
-			setTimer(3, (1000 - freq * 10));
-		}
-
-		break;
-	}
+//    switch(buzzer_status) {
+//	case OFF:
+//		buzzer_volume = 0;
+//		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
+//		break;
+//
+//	case ON:
+//		if (status == RED_AMBER && timer_counter[0] <= amber_counter) {
+//			buzzer_status = HURRY;
+//			buzzer_volume = 10;
+//		}
+//
+//		if (timer_flag[3] == 1) {
+//			buzzer_volume = (buzzer_volume == 0) ? 10 : 0;
+//			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
+//
+//			setTimer(3, 1000);
+//		}
+//		break;
+//
+//	case HURRY:
+//		if (status != RED_AMBER && status != RED_GREEN) {
+//			buzzer_status = OFF;
+//		}
+//
+//		/* INCREASE VOLUME AND DECREASE TIME FREQUENCY */
+//		freq += 10;
+//
+//		if (timer_flag[3] == 1) {
+//			buzzer_volume = (buzzer_volume == 0) ? (10 + freq) : 0;
+//			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
+//
+//			setTimer(3, (1000 - freq * 10));
+//		}
+//
+//		break;
+//	}
 }
