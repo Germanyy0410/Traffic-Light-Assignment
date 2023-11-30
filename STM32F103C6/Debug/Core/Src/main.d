@@ -27,7 +27,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/graphics.h ../Core/Inc/global.h ../Core/Inc/main.h \
  ../Core/Inc/button.h ../Core/Inc/software_timer.h ../Core/Inc/graphics.h \
  ../Core/Inc/global.h ../Core/Inc/fsm_automatic.h \
- ../Core/Inc/fsm_manual.h ../Core/Inc/uart_communication.h
+ ../Core/Inc/fsm_manual.h
 
 ../Core/Inc/main.h:
 
@@ -98,5 +98,3 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/fsm_automatic.h:
 
 ../Core/Inc/fsm_manual.h:
-
-../Core/Inc/uart_communication.h:

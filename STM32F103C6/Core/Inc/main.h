@@ -50,6 +50,8 @@ extern "C" {
 
 /* USER CODE END EM */
 
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -62,10 +64,10 @@ void Error_Handler(void);
 #define BUTTON_PEDESTRIAN_GPIO_Port GPIOA
 #define BUTTON_1_Pin GPIO_PIN_1
 #define BUTTON_1_GPIO_Port GPIOA
+#define BUTTON_2_Pin GPIO_PIN_4
+#define BUTTON_2_GPIO_Port GPIOA
 #define SEG2_Pin GPIO_PIN_5
 #define SEG2_GPIO_Port GPIOA
-#define BUZZER_Pin GPIO_PIN_6
-#define BUZZER_GPIO_Port GPIOA
 #define SEG3_Pin GPIO_PIN_7
 #define SEG3_GPIO_Port GPIOA
 #define BUTTON_3_Pin GPIO_PIN_0
@@ -76,13 +78,8 @@ void Error_Handler(void);
 #define SEG1_GPIO_Port GPIOB
 #define D6_PEDESTRIAN_Pin GPIO_PIN_10
 #define D6_PEDESTRIAN_GPIO_Port GPIOB
-<<<<<<< HEAD
 #define BUTTON_2_1_Pin GPIO_PIN_11
 #define BUTTON_2_1_GPIO_Port GPIOB
-=======
-#define BUTTON_2_Pin GPIO_PIN_11
-#define BUTTON_2_GPIO_Port GPIOB
->>>>>>> 3c7b5c866cd0842f3d50af25e11b5b641af3f791
 #define LED_RED_1_Pin GPIO_PIN_13
 #define LED_RED_1_GPIO_Port GPIOB
 #define LED_AMBER_1_Pin GPIO_PIN_14
@@ -122,6 +119,7 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
+TIM_HandleTypeDef htim3;
 
 #ifdef __cplusplus
 }

@@ -83,6 +83,9 @@ void fsm_manual_run(UART_HandleTypeDef huart2) {
 			counter_light_1 = red_counter / 1000; // counter light 1 show the value of current manual light
 			counter_lights = READ_UART;								// reset counter for switching 7-seg lights
 
+			status = AUTOMATIC_MODE;
+			traffic_status = INIT;
+
 			/* UART COMMUNICATION */
 			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Upon update:\r\n"), 1000);
 			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "RED counter = %d\r\n", counter_light_1), 1000);
@@ -127,6 +130,9 @@ void fsm_manual_run(UART_HandleTypeDef huart2) {
 			counter_light_1 = amber_counter / 1000; // counter light 1 show the value of current manual light
 			counter_lights = READ_UART;									// reset counter for switching 7-seg lights
 
+			status = AUTOMATIC_MODE;
+			traffic_status = INIT;
+
 			/* UART COMMUNICATION */
 			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Upon update:\r\n"), 1000);
 			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "AMBER counter = %d\r\n", counter_light_1), 1000);
@@ -159,6 +165,9 @@ void fsm_manual_run(UART_HandleTypeDef huart2) {
 			setTimer(1, 5000);									// set 5 seconds for manual events
 			counter_light_1 = green_counter / 1000; // counter light 1 show the value of current manual light
 			counter_lights = READ_UART;									// reset counter for switching 7-seg lights
+
+			status = AUTOMATIC_MODE;
+			traffic_status = INIT;
 
 			/* UART COMMUNICATION */
 			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Upon update:\r\n"), 1000);
