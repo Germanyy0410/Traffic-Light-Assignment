@@ -86,7 +86,7 @@ void display7SegmentLED(int number, GPIO_TypeDef *GPIOx[], uint16_t GPIO_Pins[])
 	}
 }
 
-void display7SegmentLight()
+void display7SegmentLight(UART_HandleTypeDef huart2)
 {
 	uint16_t GPIO_Pins[] = {SEG0_Pin, SEG1_Pin, SEG2_Pin, SEG3_Pin,
 							SEG4_Pin, SEG5_Pin, SEG6_Pin};
@@ -94,7 +94,12 @@ void display7SegmentLight()
 			SEG3_GPIO_Port, SEG4_GPIO_Port, SEG5_GPIO_Port, SEG6_GPIO_Port};
 	switch (counter_lights)
 	{
-	case 1:
+	case READ_UART:
+		if (status == AUTOMATIC_MODE)
+			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Light 1 = %d   Light 2 = %d\r\n", counter_light_1, counter_light_2), 1000);
+		counter_lights = LIGHT_1;
+		break;
+	case LIGHT_1:
 		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
@@ -102,11 +107,11 @@ void display7SegmentLight()
 		display7SegmentLED(counter_light_1 / 10, GPIOx, GPIO_Pins); // first digit of light 1
 		if (timer_flag[3] == 1)
 		{
-			counter_lights = 2;
+			counter_lights = LIGHT_2;
 			setTimer(3, 250);
 		}
 		break;
-	case 2:
+	case LIGHT_2:
 		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
@@ -114,11 +119,11 @@ void display7SegmentLight()
 		display7SegmentLED(counter_light_1 % 10, GPIOx, GPIO_Pins); // second digit of light 1
 		if (timer_flag[3] == 1)
 		{
-			counter_lights = 3;
+			counter_lights = LIGHT_3;
 			setTimer(3, 250);
 		}
 		break;
-	case 3:
+	case LIGHT_3:
 		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_RESET);
@@ -126,11 +131,11 @@ void display7SegmentLight()
 		display7SegmentLED(counter_light_2 / 10, GPIOx, GPIO_Pins); // first digit of light 2
 		if (timer_flag[3] == 1)
 		{
-			counter_lights = 4;
+			counter_lights = LIGHT_4;
 			setTimer(3, 250);
 		}
 		break;
-	case 4:
+	case LIGHT_4:
 		HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
@@ -138,10 +143,9 @@ void display7SegmentLight()
 		display7SegmentLED(counter_light_2 % 10, GPIOx, GPIO_Pins); // second digit of light 2
 		if (timer_flag[3] == 1)
 		{
-			counter_lights = 1;
+			counter_lights = READ_UART;
 			if (status == AUTOMATIC_MODE)
 			{
-				countingDownFlag = 0;
 				counter_light_1--;
 				counter_light_2--;
 			}
@@ -149,7 +153,7 @@ void display7SegmentLight()
 		}
 		break;
 	default:
-		counter_lights = 1;
+		counter_lights = READ_UART;
 		break;
 	}
 }

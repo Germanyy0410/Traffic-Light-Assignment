@@ -19,6 +19,6 @@ void setGreenLight2(int blink);
 void setAmberLight2(int blink);
 
 void display7SegmentLED(int number, GPIO_TypeDef *GPIOx[], uint16_t GPIO_Pins[]);
-void display7SegmentLight();
+void display7SegmentLight(UART_HandleTypeDef huart2);
 
 #endif /* INC_GRAPHICS_H_ */

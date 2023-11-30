@@ -26,7 +26,6 @@
 #include "global.h"
 #include "fsm_automatic.h"
 #include "fsm_manual.h"
-#include "uart_communication.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -116,23 +115,20 @@ int main(void)
 	HAL_GPIO_WritePin(D6_PEDESTRIAN_GPIO_Port, D6_PEDESTRIAN_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(D7_PEDESTRIAN_GPIO_Port, D7_PEDESTRIAN_Pin, GPIO_PIN_SET);
 	while (1) {
-//		if (buffer_flag == 1) {
-//			buffer_flag = 0;
-//		}
-//		uart_communiation_fsm(huart2);
-//
-//		fsm_pedestrian_run();
-//
-//		if (status == AUTOMATIC_MODE)
-//			fsm_automatic_run();
-//		else if (status == MANUAL_MODE)
-//			fsm_manual_run();
-//
-//		if (buffer_flag == 1) {
-//			buffer_flag = 0;
-//		}
-//
-//		display7SegmentLight();
+		if (buffer_flag == 1) {
+			buffer_flag = 0;
+		}
+
+		if (status == AUTOMATIC_MODE)
+			fsm_automatic_run(huart2);
+		else if (status == MANUAL_MODE)
+			fsm_manual_run(huart2);
+
+		if (buffer_flag == 1) {
+			buffer_flag = 0;
+		}
+
+		display7SegmentLight(huart2);
 
     /* USER CODE END WHILE */
 
@@ -278,8 +274,8 @@ static void MX_GPIO_Init(void)
                           |LED_3_Pin|EN0_Pin|EN1_Pin|EN2_Pin
                           |EN3_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : BUTTON_PEDESTRIAN_Pin BUTTON_1_Pin BUTTON_2_Pin */
-  GPIO_InitStruct.Pin = BUTTON_PEDESTRIAN_Pin|BUTTON_1_Pin|BUTTON_2_Pin;
+  /*Configure GPIO pins : BUTTON_PEDESTRIAN_Pin BUTTON_1_Pin */
+  GPIO_InitStruct.Pin = BUTTON_PEDESTRIAN_Pin|BUTTON_1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -295,8 +291,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : BUTTON_3_Pin BUTTON_2_1_Pin */
-  GPIO_InitStruct.Pin = BUTTON_3_Pin|BUTTON_2_1_Pin;
+  /*Configure GPIO pins : BUTTON_3_Pin BUTTON_2_Pin */
+  GPIO_InitStruct.Pin = BUTTON_3_Pin|BUTTON_2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);

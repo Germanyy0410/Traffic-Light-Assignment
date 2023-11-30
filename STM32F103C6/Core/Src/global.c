@@ -28,6 +28,3 @@ uint8_t index_buffer = 0;
 uint8_t buffer_flag = 0;
 char str[MAX_BUFFER_SIZE];
 
-int uartOneTimeFlag = 0; // use this variable to print uart signal once
-int countingDownFlag = 0;
-

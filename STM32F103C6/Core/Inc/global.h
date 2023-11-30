@@ -52,6 +52,13 @@ extern int red_counter;
 extern int amber_counter;
 extern int green_counter;
 
+// * 7-segment display * //
+#define READ_UART 100
+#define LIGHT_1 200
+#define LIGHT_2 300
+#define LIGHT_3 400
+#define LIGHT_4 500
+
 extern int time_modify_counter; /* STORE THE TEMPORARY VALUE TO ADJUST TIME LENGTH */
 extern int counter_light_1; 	// counter for light 1
 extern int counter_light_2; 	// counter for light 2
@@ -64,9 +71,6 @@ extern uint8_t buffer[MAX_BUFFER_SIZE];
 extern uint8_t index_buffer;
 extern uint8_t buffer_flag;
 extern char str[MAX_BUFFER_SIZE];	// read string from uart
-
-extern int uartOneTimeFlag; 	// use this variable to print uart signal once
-extern int countingDownFlag;	// use this variable to print uart signal for AUTOMATIC MODE
 
 void reset_to_normal_mode(void);
 
