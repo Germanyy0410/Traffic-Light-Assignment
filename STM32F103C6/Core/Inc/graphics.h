@@ -21,7 +21,4 @@ void setAmberLight2(int blink);
 void display7SegmentLED(int number, GPIO_TypeDef *GPIOx[], uint16_t GPIO_Pins[]);
 void display7SegmentLight();
 
-void send7SEG(void);
-
-
 #endif /* INC_GRAPHICS_H_ */
