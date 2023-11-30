@@ -1,8 +1,8 @@
 /*
  * software_timer.c
  *
- *  Created on: 21 thg 11, 2023
- *      Author: ProX
+ *  Created on: Oct 26, 2023
+ *      Author: ASUS
  */
 
 #include "software_timer.h"
@@ -18,7 +18,7 @@ void setTimer(int flagNo, int duration) {
 }
 
 void timerRun() {
-	for (int flagNo = 0; flagNo < NUM_OF_TIMERS; flagNo++) {
+	for (int flagNo = 1; flagNo <= NO_TIMERS; flagNo++) {
 		if (timer_counter[flagNo] > 0) {
 			timer_counter[flagNo]--;
 			if (timer_counter[flagNo] <= 0) {
