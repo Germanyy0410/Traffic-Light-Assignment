@@ -21,3 +21,13 @@ int green_counter = 3000;
 int counter_light_1 = 1;
 int counter_light_2 = 1;
 int counter_lights = 1;
+
+uint8_t temp = 0;
+uint8_t buffer[MAX_BUFFER_SIZE];
+uint8_t index_buffer = 0;
+uint8_t buffer_flag = 0;
+char str[MAX_BUFFER_SIZE];
+
+int uartOneTimeFlag = 0; // use this variable to print uart signal once
+int countingDownFlag = 0;
+

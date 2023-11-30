@@ -7,4 +7,3 @@ graphics.c:54:6:setGreenLight2	16	static
 graphics.c:60:6:setAmberLight2	16	static
 graphics.c:67:6:display7SegmentLED	320	static
 graphics.c:89:6:display7SegmentLight	64	static
-graphics.c:156:6:send7SEG	4	static

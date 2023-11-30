@@ -141,6 +141,7 @@ void display7SegmentLight()
 			counter_lights = 1;
 			if (status == AUTOMATIC_MODE)
 			{
+				countingDownFlag = 0;
 				counter_light_1--;
 				counter_light_2--;
 			}
@@ -151,8 +152,4 @@ void display7SegmentLight()
 		counter_lights = 1;
 		break;
 	}
-}
-
-void send7SEG(void) {
-
 }

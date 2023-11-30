@@ -12,6 +12,7 @@
 #include "button.h"
 #include "software_timer.h"
 #include "graphics.h"
+#include <stdio.h>
 
 #define INIT 1
 #define AUTOMATIC_MODE 2
@@ -55,6 +56,17 @@ extern int time_modify_counter; /* STORE THE TEMPORARY VALUE TO ADJUST TIME LENG
 extern int counter_light_1; 	// counter for light 1
 extern int counter_light_2; 	// counter for light 2
 extern int counter_lights;		// counter for switching 7 segment lights
+
+#define MAX_BUFFER_SIZE	30
+
+extern uint8_t temp;
+extern uint8_t buffer[MAX_BUFFER_SIZE];
+extern uint8_t index_buffer;
+extern uint8_t buffer_flag;
+extern char str[MAX_BUFFER_SIZE];	// read string from uart
+
+extern int uartOneTimeFlag; 	// use this variable to print uart signal once
+extern int countingDownFlag;	// use this variable to print uart signal for AUTOMATIC MODE
 
 void reset_to_normal_mode(void);
 

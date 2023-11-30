@@ -40,6 +40,8 @@ void fsm_automatic_run(void) {
             traffic_status = RED_AMBER;
             setTimer(1, amber_counter);
 
+            uartOneTimeFlag = 0;
+
             counter_light_2 = amber_counter / 1000;
         }    
 
@@ -52,6 +54,8 @@ void fsm_automatic_run(void) {
         if (timer_flag[1] == 1) {
             traffic_status = GREEN_RED;
             setTimer(1, green_counter);
+
+            uartOneTimeFlag = 0;
 
             counter_light_1 = green_counter / 1000;
             counter_light_2 = red_counter / 1000;
@@ -70,6 +74,8 @@ void fsm_automatic_run(void) {
             traffic_status = AMBER_RED;
             setTimer(1, amber_counter);
 
+            uartOneTimeFlag = 0;
+
             counter_light_1 = amber_counter / 1000;
         }
 
@@ -82,6 +88,8 @@ void fsm_automatic_run(void) {
         if (timer_flag[1] == 1) {
             traffic_status = RED_GREEN;
             setTimer(1, green_counter);
+
+            uartOneTimeFlag = 0;
 
             counter_light_1 = red_counter / 1000;
             counter_light_2 = green_counter / 1000;

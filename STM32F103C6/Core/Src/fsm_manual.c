@@ -30,6 +30,8 @@ void fsm_manual_run(void) {
 		counter_light_1 = red_counter / 1000; 		// counter light 1 show the value of current manual light
 		counter_light_2 = traffic_status;					// counter light 2 show the mode
 
+        uartOneTimeFlag = 0;
+
 		setTimer(1, 5000);				// reuse timer 0 to 5 seconds for manual event
 		setTimer(2, 500); 				// set timer 1 for led blinking
 		setTimer(3, 250);				// timer 3 still counting 7-seg light
@@ -48,6 +50,8 @@ void fsm_manual_run(void) {
 			time_modify_counter = amber_counter;	// update temporary counter storing red led delay
 			counter_light_1 = amber_counter / 1000;	// counter light 1 show the value of current manual light
 			counter_light_2 = traffic_status;				// counter light 2 show the mode
+
+            uartOneTimeFlag = 0;
 
 			setTimer(1, 5000);			// reuse timer 0 to 5 seconds for manual event
 			setTimer(2, 500); 			// set timer 1 for led blinking
@@ -84,6 +88,8 @@ void fsm_manual_run(void) {
 			counter_light_1 = green_counter / 1000;			// counter light 1 show the value of current manual light
 			counter_light_2 = traffic_status;						// counter light 2 show the mode
 
+            uartOneTimeFlag = 0;
+
 			setTimer(1, 5000);				// reuse timer 0 to 5 seconds for manual event
 			setTimer(2, 500); 				// set timer 1 for led blinking
 			setTimer(3, 250);				// timer 3 still counting 7-seg light
@@ -116,6 +122,7 @@ void fsm_manual_run(void) {
 		if (isButtonPressed(1)) {
 			status = AUTOMATIC_MODE;
 			traffic_status = INIT;
+            uartOneTimeFlag = 0;
 		}
 
 		if (isButtonPressed(2) == 1) { // increasing 7-segment light counter
