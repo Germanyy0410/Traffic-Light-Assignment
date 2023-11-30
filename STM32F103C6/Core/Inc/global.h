@@ -11,11 +11,12 @@
 #include "main.h"
 #include "button.h"
 #include "software_timer.h"
+#include "graphics.h"
 
-#define INIT 3
-#define AUTOMATIC_MODE 4
-#define MANUAL_MODE 5
-#define TUNING_MODE 6
+#define INIT 1
+#define AUTOMATIC_MODE 2
+#define MANUAL_MODE 3
+#define TUNING_MODE 4
 
 #define MAX_TIME 99000    // 99 seconds
 #define UPDATED_TIME 1000 // 1 second
@@ -37,9 +38,9 @@
 #define PEDESTRIAN_RED 600
 
 // * Tuning mode * //
-#define MAN_RED 100
-#define MAN_AMBER 200
-#define MAN_GREEN 300
+#define MAN_RED 2
+#define MAN_AMBER 3
+#define MAN_GREEN 4
 
 extern int status;            // general status
 extern int traffic_status;    // status for traffic mode
@@ -53,6 +54,7 @@ extern int green_counter;
 extern int time_modify_counter; /* STORE THE TEMPORARY VALUE TO ADJUST TIME LENGTH */
 extern int counter_light_1; 	// counter for light 1
 extern int counter_light_2; 	// counter for light 2
+extern int counter_lights;		// counter for switching 7 segment lights
 
 void reset_to_normal_mode(void);
 
