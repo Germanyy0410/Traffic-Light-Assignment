@@ -10,6 +10,6 @@
 
 #include "global.h"
 
-void fsm_manual_run(void);
+void fsm_manual_run(UART_HandleTypeDef huart2);
 
 #endif /* INC_FSM_MANUAL_H_ */
