@@ -94,6 +94,10 @@ void display7SegmentLight(UART_HandleTypeDef huart2)
 			SEG3_GPIO_Port, SEG4_GPIO_Port, SEG5_GPIO_Port, SEG6_GPIO_Port};
 	switch (counter_lights)
 	{
+	case INIT:
+		counter_lights = READ_UART;
+		setTimer(3, 250); 		// timer 3 for counting light
+		break;
 	case READ_UART:
 		if (status == AUTOMATIC_MODE)
 			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Light 1 = %d   Light 2 = %d\r\n", counter_light_1, counter_light_2), 1000);

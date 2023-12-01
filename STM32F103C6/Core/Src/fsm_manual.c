@@ -25,7 +25,7 @@ void fsm_manual_run(UART_HandleTypeDef huart2) {
 	switch (traffic_status) {
 	case INIT:
 		/* UART COMMUNICATION */
-		HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Mode: Manual mode\r\n"), 1000);
+        HAL_UART_Transmit(&huart2, (uint8_t *)"Mode: Manual mode\r\n", 24, 1000);
 
 
 		// change traffic state to MAN_RED when change from AUTOMATIC to MANUAL
@@ -41,8 +41,9 @@ void fsm_manual_run(UART_HandleTypeDef huart2) {
 		setTimer(3, 250);				// timer 3 still counting 7-seg light
 
 		/* UART COMMUNICATION */
-		HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Mode 2: Modifying RED\r\n"), 1000);
-		HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Current time = %d\r\n", counter_light_1), 1000);
+		HAL_UART_Transmit(&huart2, (uint8_t *)"Mode 2: Modifying RED\r\n", 26, 1000);
+		HAL_UART_Transmit(&huart2, (uint8_t *)"Current time = ", 16, 1000);
+		HAL_UART_Transmit(&huart2, (uint8_t *)str, sprintf(str, "%d\r\n", counter_light_1), 1000);
 
 		break;
 	case MAN_RED:
@@ -64,13 +65,15 @@ void fsm_manual_run(UART_HandleTypeDef huart2) {
 			setTimer(3, 250);			// timer 3 still counting 7-seg light
 
 			/* UART COMMUNICATION */
-			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Mode 3: Modifying AMBER\r\n"), 1000);
-			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Current time = %d\r\n", counter_light_1), 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)"Mode 3: Modifying AMBER\r\n", 28, 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)"Current time = ", 16, 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)str, sprintf(str, "%d\r\n", counter_light_1), 1000);
 		}
 
 		if (isButtonPressed(2) == 1) { // increasing 7-segment light counter
 			time_modify_counter += UPDATED_TIME;
-			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Updated time = %d\r\n", time_modify_counter / 1000), 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)"Updated time = ", 16, 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)str, sprintf(str, "%d\r\n", time_modify_counter / 1000), 1000);
 			if (time_modify_counter > MAX_TIME)
 				time_modify_counter = 1000; // 1 second
 			setTimer(1, 5000); // set 5 seconds for manual events
@@ -87,8 +90,9 @@ void fsm_manual_run(UART_HandleTypeDef huart2) {
 			traffic_status = INIT;
 
 			/* UART COMMUNICATION */
-			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Upon update:\r\n"), 1000);
-			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "RED counter = %d\r\n", counter_light_1), 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)"Upon update:\r\n", 15, 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)"RED counter = ", 15, 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)str, sprintf(str, "%d\r\n", counter_light_1), 1000);
 		}
 		break;
 
@@ -111,13 +115,16 @@ void fsm_manual_run(UART_HandleTypeDef huart2) {
 			setTimer(3, 250);				// timer 3 still counting 7-seg light
 
 			/* UART COMMUNICATION */
-			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Mode 4: Modifying GREEN\r\n"), 1000);
-			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Current time = %d\r\n", counter_light_1), 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)"Mode 4: Modifying GREEN\r\n", 27, 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)"Current time = ", 16, 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)str, sprintf(str, "%d\r\n", counter_light_1), 1000);
+
 		}
 
 		if (isButtonPressed(2) == 1) { // increasing 7-segment light counter
 			time_modify_counter += UPDATED_TIME;
-			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Updated time = %d\r\n", time_modify_counter / 1000), 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)"Updated time = ", 16, 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)str, sprintf(str, "%d\r\n", time_modify_counter / 1000), 1000);
 			if (time_modify_counter > MAX_TIME)
 				time_modify_counter = 1000; // 1 second
 			setTimer(1, 5000); // set 5 seconds for manual events
@@ -134,8 +141,9 @@ void fsm_manual_run(UART_HandleTypeDef huart2) {
 			traffic_status = INIT;
 
 			/* UART COMMUNICATION */
-			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Upon update:\r\n"), 1000);
-			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "AMBER counter = %d\r\n", counter_light_1), 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)"Upon update:\r\n", 15, 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)"AMBER counter = ", 17, 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)str, sprintf(str, "%d\r\n", counter_light_1), 1000);
 		}
 
 		break;
@@ -153,7 +161,8 @@ void fsm_manual_run(UART_HandleTypeDef huart2) {
 
 		if (isButtonPressed(2) == 1) { // increasing 7-segment light counter
 			time_modify_counter += UPDATED_TIME;
-			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Updated time = %d\r\n", time_modify_counter / 1000), 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)"Updated time = ", 16, 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)str, sprintf(str, "%d\r\n", time_modify_counter / 1000), 1000);
 			if (time_modify_counter > MAX_TIME)
 				time_modify_counter = 1000; // 1 second
 			setTimer(1, 5000); // set 5 seconds for manual events
@@ -170,8 +179,9 @@ void fsm_manual_run(UART_HandleTypeDef huart2) {
 			traffic_status = INIT;
 
 			/* UART COMMUNICATION */
-			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Upon update:\r\n"), 1000);
-			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "GREEN counter = %d\r\n", counter_light_1), 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)"Upon update:\r\n", 15, 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)"GREEN counter = ", 17, 1000);
+			HAL_UART_Transmit(&huart2, (uint8_t *)str, sprintf(str, "%d\r\n", counter_light_1), 1000);
 		}
 
 		break;
