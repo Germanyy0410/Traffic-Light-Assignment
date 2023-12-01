@@ -14,7 +14,7 @@ void Red_Green(void);
 void Red_Amber(void);
 void Green_Red(void);
 void Amber_Red(void);
-void light_Off(void);
+void resetLights(void);
 void Toggle_Red(void);
 void Toggle_Amber(void);
 void Toggle_Green(void);

@@ -7,6 +7,19 @@
 
 #include "graphics.h"
 
+void resetLights(void) {
+    time_modify_counter = 0;
+	traffic_status = INIT;
+
+    /* Off */
+    HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, 0);
+    HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, 0);
+
+    /* Off */
+    HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, 0);
+    HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, 0);
+}
+
 void Red_Green(void) {
     /* Red */
     HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, 1);

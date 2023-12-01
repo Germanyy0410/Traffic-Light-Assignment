@@ -64,33 +64,48 @@ void fsm_buzzer_run() {
 		break;
 
 	case ON:
-		if (status == RED_AMBER && timer_counter[0] <= amber_counter) {
-			buzzer_status = HURRY;
-			buzzer_volume = 20;
+		if (traffic_status == RED_AMBER) {
+			// buzzer_status = HURRY;
+			// buzzer_volume = 0;
+
+			/* INCREASE VOLUME AND DECREASE TIME FREQUENCY */
+			
+
+			if (timer_flag[3] == 1) {
+				freq += 10;
+				buzzer_volume = (buzzer_volume == 0) ? (55 + freq) : 0;
+				__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
+
+				setTimer(3, 50);
+			}
 		}
 
-		if (timer_flag[3] == 1) {
-			buzzer_volume = (buzzer_volume == 0) ? 20 : 0;
-			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
+		else {
+				if (timer_flag[3] == 1) {
+				buzzer_volume = (buzzer_volume == 0) ? 55 : 0;
+				__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
 
-			setTimer(3, 1000);
+				setTimer(3, 250);
+			}
 		}
 		break;
 
 	case HURRY:
-		if (status != RED_AMBER && status != RED_GREEN) {
-			buzzer_status = OFF;
-		}
+		// if (status != RED_AMBER && status != RED_GREEN) {
+		// 	buzzer_status = OFF;
+		// }
 
-		/* INCREASE VOLUME AND DECREASE TIME FREQUENCY */
-		freq += 20;
+		// PedestrianRed();
 
-		if (timer_flag[3] == 1) {
-			buzzer_volume = (buzzer_volume == 0) ? (20 + freq) : 0;
-			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
+		// /* INCREASE VOLUME AND DECREASE TIME FREQUENCY */
+		// freq += 30;
 
-			setTimer(3, (1000 - freq * 10));
-		}
+		// if (timer_flag[3] == 1) {
+		// 	buzzer_volume = (buzzer_volume == 0) ? (55 + freq) : 0;
+		// 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, buzzer_volume);
+
+		// 	setTimer(3, 100);
+		// }
 
 		break;
 	}

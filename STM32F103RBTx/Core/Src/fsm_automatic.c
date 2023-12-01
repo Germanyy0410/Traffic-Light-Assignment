@@ -7,56 +7,59 @@
 
 #include "fsm_automatic.h"
 
-void fsm_automatic_run(void) {
+void fsm_automatic_run(UART_HandleTypeDef huart2) {
     /* CHANGE TO MANUAL MODE WHEN BUTTON1 IS PRESSED */
     if (isButtonPressed(1)) {
     	status = MANUAL_MODE;
-		setTimer(0, 5000);				// reuse timer 0 to 5 seconds for manual event
-    }
-
-    if (timer_flag[2] == 1) {
-    	counter_light_1--;
-    	counter_light_2--;
-        setTimer(2, 1000); // set timer 2 to 1 second to update counter light
+		traffic_status = INIT;
+		return;
     }
 
     switch (traffic_status) {
     case INIT:
+    	/* UART COMMUNICATION */
+    	HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Mode: Automatic mode\r\n"), 1000);
+
+    	resetLights();
     	/* INACTIVE pedestrian light when in INIT state */
     	pedestrian_status = PEDESTRIAN_INACTIVE;
 
-        Red_Green();
         traffic_status = RED_GREEN;
-        setTimer(0, green_counter);
+        HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "RED   GREEN\r\n"), 1000);
 
-        setTimer(2, 1000); // set timer 2 to 1 second to update counter light
+        setTimer(1, green_counter);
 
-        counter_light_1 = red_counter;
-        counter_light_2 = green_counter;
+		setTimer(3, 250); 		// timer 3 for counting light
+
+        counter_light_1 = red_counter / 1000;
+        counter_light_2 = green_counter / 1000;
+//        counter_lights = READ_UART;
 
         break;
 
     case RED_GREEN:
-        Red_Green();
+    	Red_Green();
 
-        if (timer_flag[0] == 1) {
+        if (timer_flag[1] == 1) {
             traffic_status = RED_AMBER;
-            setTimer(0, amber_counter);
+            HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "RED   AMBER\r\n"), 1000);
+            setTimer(1, amber_counter);
 
-            counter_light_2 = amber_counter;
+            counter_light_2 = amber_counter / 1000;
         }    
 
         break;
 
     case RED_AMBER:
-        Red_Amber();
+    	Red_Amber();
 
-        if (timer_flag[0] == 1) {
+        if (timer_flag[1] == 1) {
             traffic_status = GREEN_RED;
-            setTimer(0, green_counter);
+            HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "GREEN   RED\r\n"), 1000);
+            setTimer(1, green_counter);
 
-            counter_light_1 = green_counter;
-            counter_light_2 = red_counter;
+            counter_light_1 = green_counter / 1000;
+            counter_light_2 = red_counter / 1000;
 
             /* INACTIVE pedestrian light when traffic light is backing to GREEN_RED mode */
             pedestrian_status = PEDESTRIAN_INACTIVE;
@@ -65,13 +68,14 @@ void fsm_automatic_run(void) {
         break;
 
     case GREEN_RED:
-        Green_Red();
+    	Green_Red();
 
-        if (timer_flag[0] == 1) {
+        if (timer_flag[1] == 1) {
             traffic_status = AMBER_RED;
-            setTimer(0, amber_counter);
+            HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "AMBER   RED\r\n"), 1000);
+            setTimer(1, amber_counter);
 
-            counter_light_1 = amber_counter;
+            counter_light_1 = amber_counter / 1000;
         }
 
         break;
@@ -79,12 +83,13 @@ void fsm_automatic_run(void) {
     case AMBER_RED:
     	Amber_Red();
 
-        if (timer_flag[0] == 1) {
+        if (timer_flag[1] == 1) {
             traffic_status = RED_GREEN;
-            setTimer(0, green_counter);
+            HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "RED   GREEN\r\n"), 1000);
+            setTimer(1, green_counter);
 
-            counter_light_1 = red_counter;
-            counter_light_2 = green_counter;
+            counter_light_1 = red_counter / 1000;
+            counter_light_2 = green_counter / 1000;
 
             /* If the pedestrian light is PEDESTRIAN_RED, change to PEDESTRIAN_GREEN when the traffic light is backing to RED_GREEN mode */
             /* If the pedestrian light is INACTIVE => no change */

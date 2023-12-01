@@ -13,15 +13,15 @@
 #include "software_timer.h"
 #include "fsm_automatic.h"
 #include "fsm_manual.h"
-#include "fsm_tuning.h"
 #include "fsm_pedestrian.h"
 #include "graphics.h"
-#include "led_display.h"
+#include <stdio.h>
 
-#define INIT 3
-#define AUTOMATIC_MODE 4
-#define MANUAL_MODE 5
-#define TUNING_MODE 6
+
+#define INIT 1
+#define AUTOMATIC_MODE 2
+#define MANUAL_MODE 3
+#define TUNING_MODE 4
 
 #define MAX_TIME 99000    // 99 seconds
 #define UPDATED_TIME 1000 // 1 second
@@ -43,9 +43,15 @@
 #define PEDESTRIAN_RED 600
 
 // * Tuning mode * //
-#define MAN_RED 100
-#define MAN_AMBER 200
-#define MAN_GREEN 300
+#define MAN_RED 120
+#define MAN_AMBER 220
+#define MAN_GREEN 320
+
+#define READ_UART 100
+#define LIGHT_1 200
+#define LIGHT_2 300
+#define LIGHT_3 400
+#define LIGHT_4 500
 
 extern int status;            // general status
 extern int traffic_status;    // status for traffic mode
@@ -59,6 +65,15 @@ extern int green_counter;
 extern int time_modify_counter; /* STORE THE TEMPORARY VALUE TO ADJUST TIME LENGTH */
 extern int counter_light_1; 	// counter for light 1
 extern int counter_light_2; 	// counter for light 2
+extern int counter_lights;		// counter for switching 7 segment lights
+
+#define MAX_BUFFER_SIZE	30
+
+extern uint8_t temp;
+extern uint8_t buffer[MAX_BUFFER_SIZE];
+extern uint8_t index_buffer;
+extern uint8_t buffer_flag;
+extern char str[MAX_BUFFER_SIZE];	// read string from uart
 
 void reset_to_normal_mode(void);
 
