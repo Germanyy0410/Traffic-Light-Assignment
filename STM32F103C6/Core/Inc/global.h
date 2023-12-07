@@ -12,6 +12,7 @@
 #include "button.h"
 #include "software_timer.h"
 #include "graphics.h"
+#include "scheduler.h"
 #include <stdio.h>
 
 #define INIT 1

@@ -59,7 +59,25 @@ static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
+void fsm_run(){
+	if (buffer_flag == 1) {
+		buffer_flag = 0;
+	}
 
+	 fsm_pedestrian_run();
+	 fsm_buzzer_run();
+
+	if (status == AUTOMATIC_MODE)
+		fsm_automatic_run(huart2);
+	else if (status == MANUAL_MODE)
+		fsm_manual_run(huart2);
+
+	if (buffer_flag == 1) {
+		buffer_flag = 0;
+	}
+
+	display7SegmentLight(huart2);
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -74,6 +92,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 		HAL_UART_Receive_IT(&huart2, &temp, 1);
 	}
 }
+
+
 /* USER CODE END 0 */
 
 /**
@@ -117,27 +137,15 @@ int main(void)
 	initButton();
 	HAL_GPIO_WritePin(D6_PEDESTRIAN_GPIO_Port, D6_PEDESTRIAN_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(D7_PEDESTRIAN_GPIO_Port, D7_PEDESTRIAN_Pin, GPIO_PIN_SET);
+
+	SCH_Add_Task(timerRun, 10, 10);
+	SCH_Add_Task(getKeyInput, 10, 10);
+	SCH_Add_Task(fsm_run, 30, 10);
 	while (1) {
-		if (buffer_flag == 1) {
-			buffer_flag = 0;
-		}
 
-		 fsm_pedestrian_run();
-		 fsm_buzzer_run();
-
-		if (status == AUTOMATIC_MODE)
-			fsm_automatic_run(huart2);
-		else if (status == MANUAL_MODE)
-			fsm_manual_run(huart2);
-
-		if (buffer_flag == 1) {
-			buffer_flag = 0;
-		}
-
-		display7SegmentLight(huart2);
 
     /* USER CODE END WHILE */
-
+	SCH_Dispatch_Tasks();
     /* USER CODE BEGIN 3 */
 	}
   /* USER CODE END 3 */
@@ -381,8 +389,9 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-	timerRun();
-	getKeyInput();
+//	timerRun();
+//	getKeyInput();
+	SCH_Update();
 }
 /* USER CODE END 4 */
 
