@@ -19,4 +19,6 @@ void Toggle_Red(void);
 void Toggle_Amber(void);
 void Toggle_Green(void);
 
+void display7SegmentLight(UART_HandleTypeDef huart2);
+
 #endif /* INC_GRAPHICS_H_ */

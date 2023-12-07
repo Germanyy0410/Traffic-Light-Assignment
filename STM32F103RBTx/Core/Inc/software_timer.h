@@ -10,7 +10,7 @@
 
 #include "global.h"
 
-#define NO_TIMERS 4
+#define NO_TIMERS 7
 
 extern int timer_flag[NO_TIMERS + 1];
 extern int timer_counter[NO_TIMERS + 1];

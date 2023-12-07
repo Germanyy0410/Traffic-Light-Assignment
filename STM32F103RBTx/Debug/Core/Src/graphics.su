@@ -7,3 +7,4 @@ graphics.c:63:6:light_Off	8	static
 graphics.c:75:6:Toggle_Red	8	static
 graphics.c:99:6:Toggle_Amber	8	static
 graphics.c:123:6:Toggle_Green	8	static
+graphics.c:147:6:display7SegmentLight	8	static

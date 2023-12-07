@@ -15,6 +15,7 @@
 #include "fsm_manual.h"
 #include "fsm_pedestrian.h"
 #include "graphics.h"
+#include "scheduler.h"
 #include <stdio.h>
 
 

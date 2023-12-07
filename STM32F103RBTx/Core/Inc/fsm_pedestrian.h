@@ -10,7 +10,7 @@
 
 #include "global.h"
 
-void fsm_pedestrian_run(void);
+void fsm_pedestrian_run(UART_HandleTypeDef huart2);
 void fsm_buzzer_run(void);
 
 #endif /* INC_FSM_PEDESTRIAN_H_ */

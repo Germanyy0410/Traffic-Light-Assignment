@@ -61,7 +61,25 @@ static void MX_GPIO_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
+void fsm_run(){
+	if (buffer_flag == 1) {
+		buffer_flag = 0;
+	}
 
+	 fsm_pedestrian_run(huart2);
+	 fsm_buzzer_run();
+
+	if (status == AUTOMATIC_MODE)
+		fsm_automatic_run(huart2);
+	else if (status == MANUAL_MODE)
+		fsm_manual_run(huart2);
+
+	if (buffer_flag == 1) {
+		buffer_flag = 0;
+	}
+
+	display7SegmentLight(huart2);
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -121,26 +139,34 @@ int main(void)
   setTimer(1, 1000);
   setTimer(2, 1000);
   setTimer(3, 1000);
+
+
+	SCH_Add_Task(timerRun, 1, 1);
+	SCH_Add_Task(getKeyInput, 1, 1);
+	SCH_Add_Task(fsm_run,1, 1);
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    if (buffer_flag == 1) {
-			buffer_flag = 0;
-		}
-
-		 fsm_pedestrian_run();
-		 fsm_buzzer_run();
-
-		if (status == AUTOMATIC_MODE)
-			fsm_automatic_run(huart2);
-		else if (status == MANUAL_MODE)
-			fsm_manual_run(huart2);
-
-		if (buffer_flag == 1) {
-			buffer_flag = 0;
-		}
+//    if (buffer_flag == 1) {
+//			buffer_flag = 0;
+//		}
+//
+//		 fsm_pedestrian_run();
+//		 fsm_buzzer_run();
+//
+//		if (status == AUTOMATIC_MODE)
+//			fsm_automatic_run(huart2);
+//		else if (status == MANUAL_MODE)
+//			fsm_manual_run(huart2);
+//
+//		if (buffer_flag == 1) {
+//			buffer_flag = 0;
+//		}
+//
+//		display7SegmentLight(huart2);
+	  SCH_Dispatch_Tasks();
 
   }
   /* USER CODE END 3 */
@@ -369,8 +395,9 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-  timerRun();
-  getKeyInput();
+//  timerRun();
+//  getKeyInput();
+	SCH_Update();
 }
 /* USER CODE END 4 */
 

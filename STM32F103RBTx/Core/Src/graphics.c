@@ -143,3 +143,58 @@ void Toggle_Green(void) {
         toggleIndex = 0;
     }
 }
+
+void display7SegmentLight(UART_HandleTypeDef huart2)
+{
+	switch (counter_lights)
+	{
+	case INIT:
+		counter_lights = READ_UART;
+		setTimer(3, 250); 		// timer 3 for counting light
+		break;
+	case READ_UART:
+		if (status == AUTOMATIC_MODE) {
+			sprintf(str, "");
+			HAL_UART_Transmit(&huart2, (void *)str, sprintf(str, "Light 1 = %d   Light 2 = %d\r\n", counter_light_1, counter_light_2), 500);
+
+		}
+		counter_lights = LIGHT_1;
+		break;
+	case LIGHT_1:
+		if (timer_flag[3] == 1)
+		{
+			counter_lights = LIGHT_2;
+			setTimer(3, 250);
+		}
+		break;
+	case LIGHT_2:
+		if (timer_flag[3] == 1)
+		{
+			counter_lights = LIGHT_3;
+			setTimer(3, 250);
+		}
+		break;
+	case LIGHT_3:
+		if (timer_flag[3] == 1)
+		{
+			counter_lights = LIGHT_4;
+			setTimer(3, 250);
+		}
+		break;
+	case LIGHT_4:
+		if (timer_flag[3] == 1)
+		{
+			counter_lights = READ_UART;
+			if (status == AUTOMATIC_MODE)
+			{
+				counter_light_1--;
+				counter_light_2--;
+			}
+			setTimer(3, 250);
+		}
+		break;
+	default:
+		counter_lights = READ_UART;
+		break;
+	}
+}
