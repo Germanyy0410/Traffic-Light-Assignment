@@ -1,4 +1,0 @@
-button.c:20:6:initButton	16	static
-button.c:31:6:getKeyInput	16	static
-button.c:63:5:isButtonPressed	16	static
-button.c:74:6:subKeyProcess	16	static
