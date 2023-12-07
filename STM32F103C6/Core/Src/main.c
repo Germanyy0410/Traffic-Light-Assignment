@@ -138,9 +138,9 @@ int main(void)
 	HAL_GPIO_WritePin(D6_PEDESTRIAN_GPIO_Port, D6_PEDESTRIAN_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(D7_PEDESTRIAN_GPIO_Port, D7_PEDESTRIAN_Pin, GPIO_PIN_SET);
 
-	SCH_Add_Task(timerRun, 10, 10);
-	SCH_Add_Task(getKeyInput, 10, 10);
-	SCH_Add_Task(fsm_run, 30, 10);
+	SCH_Add_Task(timerRun, 1, 1);
+	SCH_Add_Task(getKeyInput, 1, 1);
+	SCH_Add_Task(fsm_run, 3, 1);
 	while (1) {
 
 

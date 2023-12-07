@@ -2808,19 +2808,19 @@ int main(void)
  80015b6:	480f      	ldr	r0, [pc, #60]	; (80015f4 <main+0x88>)
  80015b8:	f001 f8e7 	bl	800278a <HAL_GPIO_WritePin>
 
-	SCH_Add_Task(timerRun, 10, 10);
- 80015bc:	220a      	movs	r2, #10
- 80015be:	210a      	movs	r1, #10
+	SCH_Add_Task(timerRun, 1, 1);
+ 80015bc:	2201      	movs	r2, #1
+ 80015be:	2101      	movs	r1, #1
  80015c0:	480d      	ldr	r0, [pc, #52]	; (80015f8 <main+0x8c>)
  80015c2:	f000 fa3d 	bl	8001a40 <SCH_Add_Task>
-	SCH_Add_Task(getKeyInput, 10, 10);
- 80015c6:	220a      	movs	r2, #10
- 80015c8:	210a      	movs	r1, #10
+	SCH_Add_Task(getKeyInput, 1, 1);
+ 80015c6:	2201      	movs	r2, #1
+ 80015c8:	2101      	movs	r1, #1
  80015ca:	480c      	ldr	r0, [pc, #48]	; (80015fc <main+0x90>)
  80015cc:	f000 fa38 	bl	8001a40 <SCH_Add_Task>
-	SCH_Add_Task(fsm_run, 30, 10);
- 80015d0:	220a      	movs	r2, #10
- 80015d2:	211e      	movs	r1, #30
+	SCH_Add_Task(fsm_run, 3, 1);
+ 80015d0:	2201      	movs	r2, #1
+ 80015d2:	2103      	movs	r1, #3
  80015d4:	480a      	ldr	r0, [pc, #40]	; (8001600 <main+0x94>)
  80015d6:	f000 fa33 	bl	8001a40 <SCH_Add_Task>
 	while (1) {
